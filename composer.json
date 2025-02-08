@@ -1,0 +1,61 @@
+{
+    "name": "juanchosl/requestlistener",
+    "description": "Little methods collection in order to create an APP listener, that can be able to receive, process and response to http request and cli commands",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/JuanchoSL/RequestListener",
+    "minimum-stability": "dev",
+    "keywords": [
+        "http",
+        "stream",
+        "uri",
+        "request",
+        "response",
+        "message",
+        "use cases",
+        "terminal",
+        "console"
+    ],
+    "authors": [
+        {
+            "name": "Juan Sánchez Lecegui",
+            "email": "JuanchoSL@hotmail.com",
+            "homepage": "https://github.com/JuanchoSL/"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-mbstring": "*",
+        "psr/log": "3.0.*",
+        "psr/container": "1.0.0",
+        "psr/http-server-handler": "*",
+        "psr/http-server-middleware": "*",
+        "fig/http-message-util": "*",
+        "juanchosl/exceptions": "1.0.*",
+        "juanchosl/datatransfer": "^1.0",
+        "juanchosl/logger": "^1.1",
+        "juanchosl/httpdata": "dev-master"
+    },
+    "suggest": {
+        "juanchosl/logger": "^1.1",
+        "juanchosl/httpdata": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.6.*",
+        "phpstan/phpstan": "1.10.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "JuanchoSL\\RequestListener\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JuanchoSL\\RequestListener\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit --configuration phpunit.xml tests",
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon"
+    }
+}
