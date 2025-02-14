@@ -3,15 +3,15 @@
 namespace JuanchoSL\RequestListener\Handlers;
 
 use JuanchoSL\DataTransfer\Factories\DataTransferFactory;
-use JuanchoSL\HttpData\Factories\ResponseFactory;
 use JuanchoSL\RequestListener\Entities\InputImmutable;
+use JuanchoSL\HttpData\Factories\ResponseFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class RunnerRequestHandler implements RequestHandlerInterface
 {
-
+/*
     public function handler(ServerRequestInterface $request): ResponseInterface
     {
         $response = (new ResponseFactory)->createResponse()->withProtocolVersion($request->getProtocolVersion());
@@ -42,7 +42,7 @@ class RunnerRequestHandler implements RequestHandlerInterface
             'time' => time() - $time
         ]);
         return $response->withHeader('Content-Length', (string) $response->getBody()->getSize());
-    }
+    }*/
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -56,7 +56,7 @@ class RunnerRequestHandler implements RequestHandlerInterface
         if (!($command instanceof UseCaseInterface)) {
             $command = new $command;
         }
-        $response = call_user_func_array([$command, 'run'], [$request, $response, $function]);
-        return $response->withHeader('Content-Length', (string) $response->getBody()->getSize());
+        return $response = call_user_func_array([$command, 'run'], [$request, $response, $function]);
+        //return $response->withHeader('Content-Length', (string) $response->getBody()->getSize());
     }
 }

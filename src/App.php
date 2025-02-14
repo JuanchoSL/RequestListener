@@ -35,7 +35,7 @@ class App implements LoggerAwareInterface
     protected array $commands = [];
     protected array $middlewares = [];
 
-
+    protected string $basePattern = '';
     protected bool $debug = false;
     protected ErrorHandlerInterface $error_handler;
     protected EnginesInterface $stream;
@@ -93,15 +93,53 @@ class App implements LoggerAwareInterface
         return $this;
     }
 
+    public function group($pattern, \Closure $callable)
+    {
+        $oldBasePattern = $this->basePattern;
+        //        $this->basePattern = $pattern;
+//        if (!empty($pattern) && substr($pattern, 0, 1) != '/') {
+//            $pattern = "/{$pattern}";
+//        }
+        $this->basePattern .= $pattern;
+        if (is_callable($callable)) {
+            call_user_func($callable);
+        }
+        $this->basePattern = $oldBasePattern;
+    }
+
     public function cli(string $alias, UseCaseInterface|callable|string|array $command): void
     {
         $this->add($alias, $command, OptionsEnum::CLI);
     }
 
+    public function get(string $alias, UseCaseInterface|callable|string|array $command): void
+    {
+        $this->add($alias, $command, OptionsEnum::GET);
+    }
+
+    public function post(string $alias, UseCaseInterface|callable|string|array $command): void
+    {
+        $this->add($alias, $command, OptionsEnum::POST);
+    }
+
+    public function put(string $alias, UseCaseInterface|callable|string|array $command): void
+    {
+        $this->add($alias, $command, OptionsEnum::PUT);
+    }
+
+    public function patch(string $alias, UseCaseInterface|callable|string|array $command): void
+    {
+        $this->add($alias, $command, OptionsEnum::PATCH);
+    }
+    public function delete(string $alias, UseCaseInterface|callable|string|array $command): void
+    {
+        $this->add($alias, $command, OptionsEnum::DELETE);
+    }
+
     public function add(string $alias, UseCaseInterface|callable|string|array $command, OptionsEnum ...$valid_options): void
     {
         foreach ($valid_options as $option) {
-            $this->commands[$alias][$option->value] = ['command' => $command];
+            $this->commands[$this->basePattern . $alias][$option->value] = ['command' => $command];
         }
     }
 
