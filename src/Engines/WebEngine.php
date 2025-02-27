@@ -20,7 +20,7 @@ class WebEngine implements EnginesInterface
 
         return new static((new ServerRequestFactory)
             ->createServerRequest($_SERVER['REQUEST_METHOD'], $uri)
-            ->withQueryParams(static::sanitize($parameters))
+            ->withQueryParams(static::sanitize($_GET))
             ->withRequestTarget($_SERVER['PATH_INFO'] ?? ''));
     }
 

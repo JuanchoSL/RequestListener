@@ -17,6 +17,7 @@ class ConsoleEngine implements EnginesInterface
     {
         $params = [];
         $key = null;
+        $argv = $_SERVER['argv'];
         foreach ($argv as $argument) {
             $value = true;
             if (substr($argument, 0, 2) == '--') {
@@ -42,13 +43,13 @@ class ConsoleEngine implements EnginesInterface
         }
 
         $return = (new ServerRequest)
-            ->withMethod(OptionsEnum::CLI->value)
+            ->withMethod(OptionsEnum::GET->value)
             ->withQueryParams(static::sanitize($params))
             ->withRequestTarget($_SERVER['argv'][1] ?? '');
 
         $body = (new StreamFactory())->createStreamFromResource(STDIN);
         if ($body->getSize() > 0) {
-            $return = $return->withBody($body);
+            $return = $return->withBody($body)->withMethod(OptionsEnum::POST->value);
             if (($mimetype = mime_content_type(STDIN)) !== false) {
                 $return = $return->withAddedHeader('content-type', $mimetype);
             }
@@ -60,7 +61,7 @@ class ConsoleEngine implements EnginesInterface
     {
         defined('STDOUT') or define('STDOUT', fopen('php://output', 'w+'));
         fwrite(STDOUT, (string) $response->getBody());
-        //fclose(STDOUT);
+
         die($response->getStatusCode());
     }
 }

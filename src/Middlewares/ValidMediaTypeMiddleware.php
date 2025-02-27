@@ -28,7 +28,7 @@ class ValidMediaTypeMiddleware implements MiddlewareInterface
                 }
             }
             if (empty($content_type)) {
-                throw new UnsupportedMediaTypeException("Any acepted media type ({$accepts}) are supported");
+                throw new UnsupportedMediaTypeException("Any accepted media type ({$accepts}) are supported");
             }
             $response = $response->withAddedHeader('Content-type', $content_type);
         }

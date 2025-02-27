@@ -38,18 +38,15 @@ class OutputCompressionMiddleware implements MiddlewareInterface
             }
         }
         $response = $handler->handle($request);
-        if (!$compress || $response->hasHeader('Content-Encoding')) {
+        //echo "<pre>". print_r($response->getBody(), true);exit;
+
+        if (!$compress || $response->hasHeader('Content-Encoding') || $response->getBody()->getSize() == 0) {
             // Browser doesn't accept compression
             return $response;
         }
         // Compress response data
         $deflateContext = deflate_init($compress, ['level' => 9]);
         $compressed = deflate_add($deflateContext, (string) $response->getBody(), \ZLIB_FINISH);
-/*
-        $stream = fopen('php://memory', 'r+');
-        fwrite($stream, $compressed);
-        rewind($stream);
-*/
         $compressed = (new StreamFactory)->createStream($compressed);
         return $response
             ->withHeader('Content-Encoding', $encoding)

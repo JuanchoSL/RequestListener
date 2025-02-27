@@ -7,14 +7,23 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class RunnerRequestHandler implements RequestHandlerInterface
+class RequestHandler implements RequestHandlerInterface
 {
+
+    protected $command;
+    protected $arguments = [];
+
+    public function __construct(callable|array|string $command, $arguments = [])
+    {
+        $this->command = $command;
+        $this->arguments = $arguments;
+    }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $response = (new ResponseFactory)->createResponse()->withProtocolVersion($request->getProtocolVersion());
 
-        $command = $request->getAttribute('commands')[$request->getRequestTarget()][$request->getMethod()]['command'];
+        $command = $this->command;
         $function = null;
         if (is_array($command)) {
             list($command, $function) = $command;
@@ -22,6 +31,9 @@ class RunnerRequestHandler implements RequestHandlerInterface
         if (!($command instanceof UseCaseInterface)) {
             $command = new $command;
         }
-        return $response = call_user_func_array([$command, 'run'], [$request, $response, $function]);
+        if (!empty($function)) {
+            $command = [$command, $function];
+        }
+        return $response = call_user_func_array($command, [$request, $response, $this->arguments]);
     }
 }
