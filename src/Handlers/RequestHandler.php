@@ -28,9 +28,17 @@ class RequestHandler implements RequestHandlerInterface
         if (is_array($command)) {
             list($command, $function) = $command;
         }
-        if (!($command instanceof UseCaseInterface)) {
+        if (!is_object($command)) {
             $command = new $command;
         }
+
+        foreach ($this->arguments as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+        if ($command instanceof UseCaseInterface) {
+            return $response = call_user_func_array([$command, 'run'], [$request, $response, $function]);
+        }
+
         if (!empty($function)) {
             $command = [$command, $function];
         }
