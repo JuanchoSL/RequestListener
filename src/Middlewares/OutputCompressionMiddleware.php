@@ -12,45 +12,31 @@ class OutputCompressionMiddleware implements MiddlewareInterface
 {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $compress = false;
-        $encoding = false;
-        if ($request->hasHeader('Accept-Encoding')) {
+        $compressed = null;
+        $response = $handler->handle($request);
+
+        if ($request->hasHeader('Accept-Encoding') && !$response->hasHeader('Content-Encoding') && $response->getBody()->getSize() > 0) {
             $accepts = $request->getHeader('Accept-Encoding');
-            if (is_string(current($accepts))) {
-                $accepts = explode(',', current($accepts));
-            }
             foreach ($accepts as $accept) {
                 $accept = trim($accept);
                 switch ($accept) {
                     case 'deflate':
-                        $encoding = 'deflate';
-                        $compress = ZLIB_ENCODING_DEFLATE;
+                        $compressed = gzcompress((string) $response->getBody());
                         break;
 
                     case 'gzip':
-                        $encoding = 'gzip';
-                        $compress = ZLIB_ENCODING_GZIP;
+                        $compressed = gzencode((string) $response->getBody());
                         break;
                 }
-                if ($encoding !== false) {
-                    break;
+                if (!empty($compressed)) {
+                    $compressed = (new StreamFactory)->createStream($compressed);
+                    return $response
+                        ->withAddedHeader('Content-Encoding', $accept)
+                        ->withAddedHeader('Content-Length', (string) $compressed->getSize())
+                        ->withBody($compressed);
                 }
             }
         }
-        $response = $handler->handle($request);
-        //echo "<pre>". print_r($response->getBody(), true);exit;
-
-        if (!$compress || $response->hasHeader('Content-Encoding') || $response->getBody()->getSize() == 0) {
-            // Browser doesn't accept compression
-            return $response;
-        }
-        // Compress response data
-        $deflateContext = deflate_init($compress, ['level' => 9]);
-        $compressed = deflate_add($deflateContext, (string) $response->getBody(), \ZLIB_FINISH);
-        $compressed = (new StreamFactory)->createStream($compressed);
-        return $response
-            ->withHeader('Content-Encoding', $encoding)
-            ->withHeader('Content-Length', (string) $compressed->getSize())
-            ->withBody($compressed);
+        return $response;
     }
 }

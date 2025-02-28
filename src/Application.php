@@ -17,6 +17,11 @@ use JuanchoSL\RequestListener\Middlewares\TraceMethodMiddleware;
 use JuanchoSL\RequestListener\Middlewares\ValidRouteMiddleware;
 use JuanchoSL\RequestListener\Engines\ConsoleEngine;
 use JuanchoSL\RequestListener\Engines\WebEngine;
+use JuanchoSL\DataTransfer\Repositories\ArrayDataTransfer;
+use JuanchoSL\DataTransfer\Repositories\CsvDataTransfer;
+use JuanchoSL\DataTransfer\Repositories\ExcelCsvDataTransfer;
+use JuanchoSL\DataTransfer\Repositories\JsonDataTransfer;
+use JuanchoSL\DataTransfer\Repositories\XmlDataTransfer;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -30,7 +35,7 @@ class Application implements LoggerAwareInterface
     protected ErrorHandlerInterface $error_handler;
     protected EnginesInterface $stream;
     protected QueueRequestHandler $main_handler;
-
+    protected array $body_parser = [];
     protected bool $debug = false;
 
     public function __construct(?EnginesInterface $engine = null)
@@ -49,7 +54,17 @@ class Application implements LoggerAwareInterface
         $this->addMiddleware(new HeadMethodMiddleware);
         //$this->addMiddleware(new ValidMethodMiddleware);
         //$this->addMiddleware(new ValidMediaTypeMiddleware);
-
+        $this->addBodyParser('application/json', JsonDataTransfer::class);
+        $this->addBodyParser('application/xml', XmlDataTransfer::class);
+        $this->addBodyParser('text/csv', CsvDataTransfer::class);
+        $this->addBodyParser('application/csv', ExcelCsvDataTransfer::class);
+        $this->addBodyParser('application/x-www-form-urlencoded', ArrayDataTransfer::class);
+        $this->addBodyParser('multipart/form-data', ArrayDataTransfer::class);
+    }
+    public function addBodyParser(string $media_type, $parser): static
+    {
+        $this->body_parser[$media_type] = $parser;
+        return $this;
     }
     public function addMiddleware(MiddlewareInterface $middleware): MiddlewareableInterface
     {
@@ -134,6 +149,11 @@ class Application implements LoggerAwareInterface
 
     public function run(): void
     {
-        $this->stream->sendMessage($this->main_handler->handle($this->stream->getRequest()));
+        $request = $this->stream->getRequest();
+        if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser) && $request->getBody()->getSize() > 0) {
+            $parser = $this->body_parser[current($request->getHeader('content-type'))];
+            $request = $request->withParsedBody(new $parser((string) $request->getBody()));
+        }
+        $this->stream->sendMessage($this->main_handler->handle($request));
     }
 }
