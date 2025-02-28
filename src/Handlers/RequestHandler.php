@@ -3,6 +3,7 @@
 namespace JuanchoSL\RequestListener\Handlers;
 
 use JuanchoSL\HttpData\Factories\ResponseFactory;
+use JuanchoSL\RequestListener\Contracts\UseCaseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
