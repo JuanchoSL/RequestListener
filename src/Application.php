@@ -152,7 +152,8 @@ class Application implements LoggerAwareInterface
         $request = $this->stream->getRequest();
         if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser) && $request->getBody()->getSize() > 0) {
             $parser = $this->body_parser[current($request->getHeader('content-type'))];
-            $request = $request->withParsedBody(new $parser((string) $request->getBody()));
+            $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
+            $request = $request->withParsedBody(new $parser($body));
         }
         $this->stream->sendMessage($this->main_handler->handle($request));
     }
