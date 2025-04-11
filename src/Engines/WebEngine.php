@@ -17,11 +17,16 @@ class WebEngine implements EnginesInterface
         $uri .= '://';
         $uri .= $_SERVER['HTTP_HOST'];
         $uri .= $_SERVER['REQUEST_URI'];
-
+        foreach (['SCRIPT_URL', 'PATH_INFO', 'REQUEST_URI'] as $target) {
+            if (array_key_exists($target, $_SERVER)) {
+                $target = $_SERVER[$target];
+                break;
+            }
+        }
         return new static((new ServerRequestFactory)
             ->createServerRequest($_SERVER['REQUEST_METHOD'], $uri)
             ->withQueryParams(static::sanitize($_GET))
-            ->withRequestTarget($_SERVER['PATH_INFO'] ?? ''));//SCRIPT_URL || PATH_INFO
+            ->withRequestTarget($target ?? ''));//SCRIPT_URL || PATH_INFO
     }
 
     public function sendMessage(ResponseInterface $response)
