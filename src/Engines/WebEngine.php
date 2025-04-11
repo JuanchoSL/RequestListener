@@ -21,7 +21,7 @@ class WebEngine implements EnginesInterface
         return new static((new ServerRequestFactory)
             ->createServerRequest($_SERVER['REQUEST_METHOD'], $uri)
             ->withQueryParams(static::sanitize($_GET))
-            ->withRequestTarget($_SERVER['SCRIPT_URL'] ?? ''));//SCRIPT_URL || PATH_INFO
+            ->withRequestTarget($_SERVER['PATH_INFO'] ?? ''));//SCRIPT_URL || PATH_INFO
     }
 
     public function sendMessage(ResponseInterface $response)
