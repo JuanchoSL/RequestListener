@@ -187,28 +187,27 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "cf3ef72a1213ae8941ad4b84d2555c1c8bd33025"
+                "reference": "e2ab1633b4e132a265f32e3922a4bd2c9993ff10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/cf3ef72a1213ae8941ad4b84d2555c1c8bd33025",
-                "reference": "cf3ef72a1213ae8941ad4b84d2555c1c8bd33025",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/e2ab1633b4e132a265f32e3922a4bd2c9993ff10",
+                "reference": "e2ab1633b4e132a265f32e3922a4bd2c9993ff10",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "fig/http-message-util": "*",
-                "juanchosl/datatransfer": "1.0.*",
+                "fig/http-message-util": "1.1.*",
                 "juanchosl/exceptions": "1.0.*",
                 "juanchosl/httpheaders": "dev-master",
                 "php": "^7.1 || ^8.0",
-                "psr/http-client": "*",
-                "psr/http-factory": "*",
-                "psr/http-message": "*"
+                "psr/http-client": "1.0.*",
+                "psr/http-factory": "1.1.*",
+                "psr/http-message": "^2.0"
             },
             "require-dev": {
                 "juanchosl/curlclient": "dev-develop",
-                "phpstan/phpstan": "1.10.*",
+                "phpstan/phpstan": "1.12.*",
                 "phpunit/phpunit": "9.6.*"
             },
             "default-branch": true,
@@ -243,10 +242,9 @@
                 "uri"
             ],
             "support": {
-                "issues": "https://github.com/JuanchoSL/HttpData/issues",
                 "source": "https://github.com/JuanchoSL/HttpData/tree/master"
             },
-            "time": "2025-02-14T21:34:59+00:00"
+            "time": "2025-03-31T19:29:47+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
@@ -792,12 +790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "8ec66b1425f6506905f6880a8c7cd85ba8537b00"
+                "reference": "32877dd24a4a2b324698e07b2d3285fb44e627c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/8ec66b1425f6506905f6880a8c7cd85ba8537b00",
-                "reference": "8ec66b1425f6506905f6880a8c7cd85ba8537b00",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/32877dd24a4a2b324698e07b2d3285fb44e627c6",
+                "reference": "32877dd24a4a2b324698e07b2d3285fb44e627c6",
                 "shasum": ""
             },
             "require": {
@@ -854,7 +852,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-11T07:45:10+00:00"
+            "time": "2025-03-10T23:43:28+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1477,12 +1475,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "5375e77dc94f0b4824b9d01330314fe29069c894"
+                "reference": "2565e7de866b4bf5af08c3304e11f51ec3ace488"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/5375e77dc94f0b4824b9d01330314fe29069c894",
-                "reference": "5375e77dc94f0b4824b9d01330314fe29069c894",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2565e7de866b4bf5af08c3304e11f51ec3ace488",
+                "reference": "2565e7de866b4bf5af08c3304e11f51ec3ace488",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1570,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-25T13:33:21+00:00"
+            "time": "2025-04-05T07:33:47+00:00"
         },
         {
             "name": "sebastian/cli-parser",
