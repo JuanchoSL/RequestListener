@@ -162,7 +162,7 @@ class Application implements LoggerAwareInterface
                 $body = new $parser($body);
                 $request = $request->withParsedBody($body);
             }
-            foreach ($request->getParsedBody() as $key => $value) {
+            foreach ($body as $key => $value) {
                 $request = $request->withAttribute($key, $value);
             }
         }
