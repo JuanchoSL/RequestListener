@@ -87,7 +87,7 @@ abstract class UseCases implements UseCaseInterface
         if (array_key_exists('help', $input->getQueryParams())) {
             $response = (new HelpCommand())->__invoke($input->withAttribute('arguments', $this->arguments), $response);
         } else {
-            $this->validate(new InputImmutable(DataTransferFactory::byTrasversable($input->getQueryParams())));
+            $this->validate(new InputImmutable(DataTransferFactory::byTrasversable($input->getAttributes())));
             $response = (is_null($method)) ? $this($input, $response) : $this->$method($input, $response);
         }
 
