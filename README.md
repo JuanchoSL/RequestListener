@@ -20,7 +20,7 @@ The library accept two types of uses
 Both systems parse the SERVER globals and create a ServerRequestInterface compatible element in order to unify his use across all the work flow. The user needs to prepare the response format according to the requested type.
 You can create you own Engine parser implementing the JuanchoSL\Contracts\EnginesInterface, only needs:
 
-- static parse method, passing the vars to parse. Returns a EngineInterface entity
+- static parse method, passing the vars to parse. Returns an EngineInterface entity
 - getRequest, to retrieve the parsed ServerRequest
 - sendMessage, to perform and send the compatible ResponseInterface message
 
