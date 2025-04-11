@@ -154,6 +154,19 @@ class Application implements LoggerAwareInterface
         foreach ($params as $key => $value) {
             $request = $request->withAttribute($key, $value);
         }
+
+        if ($request->getBody()->getSize() > 0) {
+            $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
+            if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser)) {
+                $parser = $this->body_parser[current($request->getHeader('content-type'))];
+                $body = new $parser($body);
+                $request = $request->withParsedBody($body);
+            }
+            foreach ($request->getParsedBody() as $key => $value) {
+                $request = $request->withAttribute($key, $value);
+            }
+        }
+/*
         if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser) && $request->getBody()->getSize() > 0) {
             $parser = $this->body_parser[current($request->getHeader('content-type'))];
             $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
@@ -163,6 +176,7 @@ class Application implements LoggerAwareInterface
                 $request = $request->withAttribute($key, $value);
             }
         }
+*/
         $this->stream->sendMessage($this->main_handler->handle($request));
     }
 }
