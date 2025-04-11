@@ -163,7 +163,7 @@ class Application implements LoggerAwareInterface
                 $request = $request->withParsedBody($body);
             }
         }
-        if (!empty($body) && is_iterable($body)) {
+        if (!empty($body = $request->getParsedBody()) && is_iterable($body)) {
             foreach ($body as $key => $value) {
                 $request = $request->withAttribute($key, $value);
             }
