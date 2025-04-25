@@ -34,7 +34,7 @@
         "juanchosl/exceptions": "1.0.*",
         "juanchosl/datatransfer": "^1.0",
         "juanchosl/logger": "^1.1",
-        "juanchosl/httpdata": "dev-master"
+        "juanchosl/httpdata": "1.0.*"
     },
     "suggest": {
         "juanchosl/logger": "^1.1",

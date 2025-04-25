@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00f01944483b94df7fce208683ae7db1",
+    "content-hash": "86143e6e5abeb5e00ad8567602048e12",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -183,16 +183,16 @@
         },
         {
             "name": "juanchosl/httpdata",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "e2ab1633b4e132a265f32e3922a4bd2c9993ff10"
+                "reference": "265b79dd744c8f37d081361a090712f28ae8fa32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/e2ab1633b4e132a265f32e3922a4bd2c9993ff10",
-                "reference": "e2ab1633b4e132a265f32e3922a4bd2c9993ff10",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/265b79dd744c8f37d081361a090712f28ae8fa32",
+                "reference": "265b79dd744c8f37d081361a090712f28ae8fa32",
                 "shasum": ""
             },
             "require": {
@@ -210,7 +210,6 @@
                 "phpstan/phpstan": "1.12.*",
                 "phpunit/phpunit": "9.6.*"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -228,7 +227,7 @@
                     "homepage": "https://github.com/JuanchoSL/"
                 }
             ],
-            "description": "Little methods collection in order to create http request and responses",
+            "description": "Little methods collection in order to create http request and responses using the PSR standards from PHP-FIG definitions",
             "homepage": "https://github.com/JuanchoSL/httpdata",
             "keywords": [
                 "http",
@@ -242,9 +241,9 @@
                 "uri"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpData/tree/master"
+                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.0"
             },
-            "time": "2025-03-31T19:29:47+00:00"
+            "time": "2025-04-22T12:12:33+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
@@ -790,12 +789,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "32877dd24a4a2b324698e07b2d3285fb44e627c6"
+                "reference": "f427191c2690b0518194683d900f892ecd72c8a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/32877dd24a4a2b324698e07b2d3285fb44e627c6",
-                "reference": "32877dd24a4a2b324698e07b2d3285fb44e627c6",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f427191c2690b0518194683d900f892ecd72c8a0",
+                "reference": "f427191c2690b0518194683d900f892ecd72c8a0",
                 "shasum": ""
             },
             "require": {
@@ -852,7 +851,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-10T23:43:28+00:00"
+            "time": "2025-04-24T06:55:45+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1475,12 +1474,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "2565e7de866b4bf5af08c3304e11f51ec3ace488"
+                "reference": "2e9e6ccccf9a003fecbef97b64986a80f3fa8238"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2565e7de866b4bf5af08c3304e11f51ec3ace488",
-                "reference": "2565e7de866b4bf5af08c3304e11f51ec3ace488",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2e9e6ccccf9a003fecbef97b64986a80f3fa8238",
+                "reference": "2e9e6ccccf9a003fecbef97b64986a80f3fa8238",
                 "shasum": ""
             },
             "require": {
@@ -1566,11 +1565,19 @@
                     "type": "github"
                 },
                 {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
                     "url": "https://tidelift.com/funding/github/packagist/phpunit/phpunit",
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-05T07:33:47+00:00"
+            "time": "2025-04-18T11:25:59+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2589,9 +2596,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "juanchosl/httpdata": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
