@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace JuanchoSL\RequestListener;
 
 use JuanchoSL\DataTransfer\Factories\DataTransferFactory;
+use JuanchoSL\DataTransfer\Repositories\ArrayDataTransfer;
 use JuanchoSL\Exceptions\PreconditionRequiredException;
+use JuanchoSL\HttpData\Factories\ResponseFactory;
 use JuanchoSL\RequestListener\Commands\HelpCommand;
 use JuanchoSL\RequestListener\Contracts\UseCaseInterface;
 use JuanchoSL\RequestListener\Entities\InputImmutable;
@@ -14,9 +16,10 @@ use JuanchoSL\RequestListener\Enums\InputOption;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerAwareTrait;
 
-abstract class UseCases implements UseCaseInterface
+abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
 {
 
     use LoggerAwareTrait;
@@ -80,8 +83,24 @@ abstract class UseCases implements UseCaseInterface
         return $this->arguments[$name];
     }
 
+    public function handle(ServerRequestInterface $input): ResponseInterface
+    {
+        return $this->run($input, (new ResponseFactory)->createResponse());
+    }
+
     public function run(ServerRequestInterface $input, ResponseInterface $response, ?string $method = null): ResponseInterface
     {
+        if (!empty($params = $input->getQueryParams()) && is_iterable($params)) {
+            $params = new ArrayDataTransfer($params);
+            foreach ($params as $key => $value) {
+                $input = $input->withAttribute($key, $value);
+            }
+        }
+        if (!empty($body = $input->getParsedBody()) && is_iterable($body)) {
+            foreach ($body as $key => $value) {
+                $input = $input->withAttribute($key, $value);
+            }
+        }
         $time = time();
         $this->configure();
         if (array_key_exists('help', $input->getQueryParams())) {

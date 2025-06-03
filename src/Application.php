@@ -22,6 +22,7 @@ use JuanchoSL\DataTransfer\Repositories\CsvDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\ExcelCsvDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\JsonDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\XmlDataTransfer;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -43,9 +44,9 @@ class Application implements LoggerAwareInterface
         if (!is_null($engine)) {
             $this->stream = $engine;
         } elseif (PHP_SAPI == 'cli') {
-            $this->stream = ConsoleEngine::parse(array_slice($_SERVER['argv'], 1 + 1) ?? []);
+            $this->stream = ConsoleEngine::parse();
         } else {
-            $this->stream = WebEngine::parse($_REQUEST ?? []);
+            $this->stream = WebEngine::parse();
         }
         $this->main_handler = new QueueRequestHandler(new NotAllowedResponseHandler);
         $this->addMiddleware(new ValidRouteMiddleware);
@@ -147,13 +148,9 @@ class Application implements LoggerAwareInterface
         return $new_group;
     }
 
-    public function run(): void
+    public function runWithoutExit()
     {
         $request = $this->stream->getRequest();
-        $params = new ArrayDataTransfer($request->getQueryParams());
-        foreach ($params as $key => $value) {
-            $request = $request->withAttribute($key, $value);
-        }
 
         if ($request->getBody()->getSize() > 0) {
             $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
@@ -163,22 +160,11 @@ class Application implements LoggerAwareInterface
                 $request = $request->withParsedBody($body);
             }
         }
-        if (!empty($body = $request->getParsedBody()) && is_iterable($body)) {
-            foreach ($body as $key => $value) {
-                $request = $request->withAttribute($key, $value);
-            }
-        }
-        /*
-                if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser) && $request->getBody()->getSize() > 0) {
-                    $parser = $this->body_parser[current($request->getHeader('content-type'))];
-                    $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
-                    $body = new $parser($body);
-                    $request = $request->withParsedBody($body);
-                    foreach ($body as $key => $value) {
-                        $request = $request->withAttribute($key, $value);
-                    }
-                }
-        */
-        $this->stream->sendMessage($this->main_handler->handle($request));
+        return $this->stream->sendMessage($this->main_handler->handle($request));
+    }
+    public function run(int $limit_code = 200)
+    {
+        return exit(max($limit_code, $this->runWithoutExit()));
+        return exit($this->stream->sendMessage($this->main_handler->handle($request)));
     }
 }

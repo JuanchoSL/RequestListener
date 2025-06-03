@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 interface EnginesInterface
 {
 
-    public static function parse(array $parameters): EnginesInterface;
+    public static function parse(): EnginesInterface;
     public function getRequest(): ServerRequestInterface;
     public function sendMessage(ResponseInterface $response);
 }

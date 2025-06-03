@@ -11,11 +11,16 @@ class WebEngine implements EnginesInterface
 
     use EngineTrait;
 
-    public static function parse(array $parameters): static
+    public static function parse(): static
     {
         $uri = array_key_exists('HTTPS', $_SERVER) && strtoupper($_SERVER['HTTPS']) == 'ON' ? 'https' : 'http';
         $uri .= '://';
-        $uri .= $_SERVER['HTTP_HOST'];
+        foreach (['HTTP_HOST', 'SERVER_NAME', 'HOSTNAME'] as $target) {
+            if (array_key_exists($target, $_SERVER)) {
+                $uri .= $_SERVER[$target];
+                break;
+            }
+        }
         $uri .= $_SERVER['REQUEST_URI'];
         foreach (['SCRIPT_URL', 'PATH_INFO', 'REQUEST_URI'] as $target) {
             if (array_key_exists($target, $_SERVER)) {
@@ -23,9 +28,15 @@ class WebEngine implements EnginesInterface
                 break;
             }
         }
+
+        if (empty($_GET) && !empty($_SERVER['QUERY_STRING'])) {
+            mb_parse_str($_SERVER['QUERY_STRING'], $get);
+        } else {
+            $get = $_GET;
+        }
         return new static((new ServerRequestFactory)
             ->createServerRequest($_SERVER['REQUEST_METHOD'], $uri)
-            ->withQueryParams(static::sanitize($_GET))
+            ->withQueryParams(static::sanitize($get))
             ->withRequestTarget($target ?? ''));//SCRIPT_URL || PATH_INFO
     }
 
@@ -38,6 +49,6 @@ class WebEngine implements EnginesInterface
             }
         }
         echo (string) $response->getBody();
-        exit;
+        return max(200, $response->getStatusCode());
     }
 }

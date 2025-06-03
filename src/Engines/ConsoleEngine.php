@@ -13,7 +13,7 @@ class ConsoleEngine implements EnginesInterface
 
     use EngineTrait;
 
-    public static function parse(array $argv): static
+    public static function parse(): static
     {
         $params = [];
         $key = null;
@@ -47,6 +47,7 @@ class ConsoleEngine implements EnginesInterface
             ->withQueryParams(static::sanitize($params))
             ->withRequestTarget($_SERVER['argv'][1] ?? '');
 
+        defined('STDIN') or define('STDIN', fopen('php://input', 'r+'));
         $body = (new StreamFactory())->createStreamFromResource(STDIN);
         if ($body->getSize() > 0) {
             $return = $return->withBody($body)->withMethod(OptionsEnum::POST->value);
@@ -59,9 +60,19 @@ class ConsoleEngine implements EnginesInterface
 
     public function sendMessage(ResponseInterface $response)
     {
-        defined('STDOUT') or define('STDOUT', fopen('php://output', 'w+'));
-        fwrite(STDOUT, (string) $response->getBody());
+        $limit = 200;
+        $code = max($limit, $response->getStatusCode());
+        if ($limit == 200) {
+            defined('STDOUT') or define('STDOUT', fopen('php://output', 'w+'));
+            fwrite(STDOUT, (string) $response->getBody());
+        } else {
+            defined('STDERR') or define('STDERR', fopen('php://stdout', 'w+'));
+            fwrite(STDERR, (string) $response->getBody());
 
+        }
+
+        return $code;
+        exit(0);
         die($response->getStatusCode());
     }
 }

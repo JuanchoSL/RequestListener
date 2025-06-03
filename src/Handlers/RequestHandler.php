@@ -36,6 +36,9 @@ class RequestHandler implements RequestHandlerInterface
         foreach ($this->arguments as $key => $value) {
             $request = $request->withAttribute($key, $value);
         }
+        if (empty($function) || $command instanceof RequestHandlerInterface) {
+            return $response = call_user_func_array([$command, 'handle'], [$request]);
+        }
         if ($command instanceof UseCaseInterface) {
             return $response = call_user_func_array([$command, 'run'], [$request, $response, $function]);
         }

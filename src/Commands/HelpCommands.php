@@ -18,24 +18,6 @@ class HelpCommands extends UseCases
     {
 
         $body = ($request->getMethod() == OptionsEnum::CLI->value) ? $this->toText($request) : $this->toHtml($request);
-        /*
-        if ($request->getMethod() == OptionsEnum::CLI->value) {
-            $body = $this->toText($request);
-            $response = $response->withHeader('Content-type', 'text/plain');
-        } else {
-            $body = $this->toHtml($request);
-            $response = $response->withHeader('Content-type', 'text/html');
-        }*/
-        return $response->withBody((new StreamFactory)->createStream($body));
-
-        $body[] = "Available commands:";
-        foreach ($request->getAttribute('commands') as $line => $data) {
-            $body[] = "\t- {$line}";
-        }
-        $body = implode("\r\n", $body);
-        if ($request->getMethod() != OptionsEnum::CLI->value) {
-            $body = "<pre>" . nl2br($body) . "</pre>";
-        }
         return $response->withBody((new StreamFactory)->createStream($body));
     }
 

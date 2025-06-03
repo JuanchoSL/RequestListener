@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" verbose="true" colors="true" processIsolation="true" cacheResult="false">
+    <testsuites>
+        <testsuite name="All Tests Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+        <testsuite name="Unitary Tests Suite">
+            <directory>./tests/Unitary/</directory>
+        </testsuite>
+        <testsuite name="Functional Tests Suite">
+            <directory>./tests/Functional/</directory>
+        </testsuite>
+        <testsuite name="Intergration Tests Suite">
+            <directory>./tests/Integration/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
