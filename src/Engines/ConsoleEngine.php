@@ -60,19 +60,15 @@ class ConsoleEngine implements EnginesInterface
 
     public function sendMessage(ResponseInterface $response)
     {
-        $limit = 200;
-        $code = max($limit, $response->getStatusCode());
-        if ($limit == 200) {
-            defined('STDOUT') or define('STDOUT', fopen('php://output', 'w+'));
-            fwrite(STDOUT, (string) $response->getBody());
+        $limit = 4000;
+        $body = (string) $response->getBody() . PHP_EOL;
+        if ($response->getStatusCode() < $limit) {
+            defined('STDOUT') or define('STDOUT', fopen('php://output', 'a+'));
+            fwrite(STDOUT, $body);
         } else {
-            defined('STDERR') or define('STDERR', fopen('php://stdout', 'w+'));
-            fwrite(STDERR, (string) $response->getBody());
-
+            defined('STDERR') or define('STDERR', fopen('php://stdout', 'a+'));
+            fwrite(STDERR, $body);
         }
-
-        return $code;
-        exit(0);
-        die($response->getStatusCode());
+        return $response->getStatusCode();
     }
 }

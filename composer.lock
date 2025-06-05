@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b396ad484652c5ec335565e5bbde4ba8",
+    "content-hash": "dc23f357c9786c79e846947c692176ca",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -64,16 +64,16 @@
         },
         {
             "name": "juanchosl/datatransfer",
-            "version": "1.0.8",
+            "version": "1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/DataTransfer.git",
-                "reference": "b3c1a24a74de768590abfc7459f92819333eb5d5"
+                "reference": "092c9d1f0c72b936bdb01993a5c25033384f4736"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/b3c1a24a74de768590abfc7459f92819333eb5d5",
-                "reference": "b3c1a24a74de768590abfc7459f92819333eb5d5",
+                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/092c9d1f0c72b936bdb01993a5c25033384f4736",
+                "reference": "092c9d1f0c72b936bdb01993a5c25033384f4736",
                 "shasum": ""
             },
             "require": {
@@ -128,9 +128,9 @@
                 "yaml"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.8"
+                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.9"
             },
-            "time": "2024-12-13T19:03:17+00:00"
+            "time": "2025-06-05T20:55:56+00:00"
         },
         {
             "name": "juanchosl/exceptions",

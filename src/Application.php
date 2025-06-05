@@ -22,7 +22,6 @@ use JuanchoSL\DataTransfer\Repositories\CsvDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\ExcelCsvDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\JsonDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\XmlDataTransfer;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -90,36 +89,36 @@ class Application implements LoggerAwareInterface
         return $this;
     }
 
-    public function cli(string $alias, UseCaseInterface|callable|string|array $command)
+    public function cli(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         return $this->add($alias, $command, OptionsEnum::CLI);
     }
 
-    public function get(string $alias, UseCaseInterface|callable|string|array $command)
+    public function get(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         return $this->add($alias, $command, OptionsEnum::GET);
     }
 
-    public function post(string $alias, UseCaseInterface|callable|string|array $command)
+    public function post(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         return $this->add($alias, $command, OptionsEnum::POST);
     }
 
-    public function put(string $alias, UseCaseInterface|callable|string|array $command)
+    public function put(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         return $this->add($alias, $command, OptionsEnum::PUT);
     }
 
-    public function patch(string $alias, UseCaseInterface|callable|string|array $command)
+    public function patch(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         return $this->add($alias, $command, OptionsEnum::PATCH);
     }
-    public function delete(string $alias, UseCaseInterface|callable|string|array $command)
+    public function delete(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         return $this->add($alias, $command, OptionsEnum::DELETE);
     }
 
-    protected function add(string $alias, UseCaseInterface|callable|string|array $command, OptionsEnum ...$valid_options)
+    protected function add(string $alias, UseCaseInterface|callable|string|array $command, OptionsEnum ...$valid_options): ?MiddlewareableInterface
     {
         foreach ($valid_options as $option) {
             $route = new Router(strtoupper($option->value), $this->basePattern . $alias, $command);
@@ -129,9 +128,10 @@ class Application implements LoggerAwareInterface
             }
             return $route;
         }
+        return null;
     }
 
-    public function group($pattern, \Closure $callable)
+    public function group($pattern, \Closure $callable): MiddlewareableInterface
     {
         $oldBasePattern = $this->basePattern;
         $group = $this->group;
@@ -151,7 +151,6 @@ class Application implements LoggerAwareInterface
     public function runWithoutExit()
     {
         $request = $this->stream->getRequest();
-
         if ($request->getBody()->getSize() > 0) {
             $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
             if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser)) {
@@ -162,9 +161,8 @@ class Application implements LoggerAwareInterface
         }
         return $this->stream->sendMessage($this->main_handler->handle($request));
     }
-    public function run(int $limit_code = 200)
+    public function run(int $limit_code = 400)
     {
         return exit(max($limit_code, $this->runWithoutExit()));
-        return exit($this->stream->sendMessage($this->main_handler->handle($request)));
     }
 }

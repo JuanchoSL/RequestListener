@@ -55,6 +55,34 @@ The parameter name needs to start with --, then can assign values from:
 
 #### User Defined PRE middlewares
 
+You can create and use Middlewares that implementing the PSR-15 Interfaces, according the Psr\Http\Server\MiddlewareInterface [https://www.php-fig.org/psr/psr-15/]
+
+```php
+<?php declare(strict_types=1);
+
+namespace Src\Infrastructure\Middlewares;
+
+use Fig\Http\Message\StatusCodeInterface;
+use JuanchoSL\HttpData\Factories\ResponseFactory;
+use JuanchoSL\Validators\Types\Strings\StringValidations;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ResponseInterface;
+
+class AuthorizationMiddleware implements MiddlewareInterface
+{
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $ip = filter_input(INPUT_SERVER, 'SERVER_ADDR');
+        if (!(new StringValidations)->isNotEmpty()->isIpV4()->isValueContaining('192.168.0.1')->getResult((string)$ip)) {
+            return (new ResponseFactory)->createResponse(StatusCodeInterface::STATUS_UNAUTHORIZED);
+        }
+        return $handler->handle($request);
+    }
+}
+```
+
 #### Request handler
 
 ## Use cases
