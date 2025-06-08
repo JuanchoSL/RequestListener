@@ -41,9 +41,9 @@ The parameter name needs to start with --, then can assign values from:
   - --multiple value1 --multiple value2
   - --multiple value1 value2
 
-## Middlewares
+## Application
 
-### Work Sequence
+### Middlewares
 
 #### PRE middlewares
 
@@ -83,7 +83,7 @@ class AuthorizationMiddleware implements MiddlewareInterface
 }
 ```
 
-#### Request handlers
+### Request handlers
 
 According the PSR-15, you can create and execute your own [RequestHandlers](https://www.php-fig.org/psr/psr-15/#21-psrhttpserverrequesthandlerinterface "RequestHandlers")
 
@@ -153,7 +153,7 @@ $app->setErrorHandler($errorHandler);
 $app->addMiddleware(new AuthenticationMiddleware);
 $app->get('/help', HelpCommands::class);
 $app->addMiddleware(new OutputCompressionMiddleware);
-$app->run(); //call to run, perform a exit in order to process shutdown_functions and exit code from console use
+$app->run(); //call to run, perform an exit in order to process shutdown_functions and exit code from console use
 ```
 
 ## Debug
