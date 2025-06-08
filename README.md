@@ -1,4 +1,4 @@
-# RequestListener
+﻿# RequestListener
 
 ## Description
 
@@ -55,7 +55,7 @@ The parameter name needs to start with --, then can assign values from:
 
 #### User Defined PRE middlewares
 
-You can create and use Middlewares that implementing the PSR-15 Interfaces, according the Psr\Http\Server\MiddlewareInterface [https://www.php-fig.org/psr/psr-15/]
+You can create and use Middlewares that implementing the PSR-15 Interfaces, according the [Psr\Http\Server\MiddlewareInterface](https://www.php-fig.org/psr/psr-15/)
 
 ```php
 <?php declare(strict_types=1);
@@ -83,8 +83,77 @@ class AuthorizationMiddleware implements MiddlewareInterface
 }
 ```
 
-#### Request handler
+#### Request handlers
 
-## Use cases
+According the PSR-15, you can create and execute your own [RequestHandlers](https://www.php-fig.org/psr/psr-15/#21-psrhttpserverrequesthandlerinterface "RequestHandlers")
+
+```php
+<?php declare(strict_types=1);
+
+namespace JuanchoSL\RequestListener\Commands;
+
+use Fig\Http\Message\StatusCodeInterface;
+use JuanchoSL\DataTransfer\Factories\DataConverterFactory;
+use JuanchoSL\DataTransfer\Factories\DataTransferFactory;
+use JuanchoSL\HttpData\Factories\ResponseFactory;
+use JuanchoSL\HttpData\Factories\StreamFactory;
+use JuanchoSL\HttpHeaders\ContentType;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+class ConvertCommand implements RequestHandlerInterface
+{
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        $body_contents = DataTransferFactory::byMimeType((string) $request->getBody(), $request->getHeader('content-type'));
+        $content_type = ($request->hasHeader('accept')) ? $request->getHeader('accept') : ContentType::get($request->getQueryParams()['format']);
+        $body = DataConverterFactory::asMimeType($body_contents, $content_type);
+
+        return (new ResponseFactory)->createResponse(StatusCodeInterface::STATUS_OK)
+            ->withAddedHeader('content-type', $content_type)
+            ->withBody((new StreamFactory)->createStream($body));
+    }
+}
+```
+
+### Use cases
+
+The Application system, group the routing, methods access, and callables to be executed when the rules has been accomplished. Into the entrypoint, you need to prepare endpoints and his rules to be excuted
+
+```php
+<?php
+
+use JuanchoSL\HttpData\Factories\ResponseFactory;
+use JuanchoSL\RequestListener\Commands\HelpCommands;
+use JuanchoSL\RequestListener\Engines\ConsoleEngine;
+use JuanchoSL\RequestListener\Entities\Router;
+use JuanchoSL\RequestListener\Handlers\NotAllowedResponseHandler;
+use JuanchoSL\RequestListener\Handlers\QueueRequestHandler;
+use JuanchoSL\Logger\Composers\TextComposer;
+use JuanchoSL\Logger\Logger;
+use JuanchoSL\Logger\Repositories\FileRepository;
+use JuanchoSL\RequestListener\Application;
+use JuanchoSL\RequestListener\Handlers\MyErrorHandler;
+use JuanchoSL\RequestListener\Middlewares\AuthenticationMiddleware;
+use JuanchoSL\RequestListener\Middlewares\OutputCompressionMiddleware;
+use JuanchoSL\RequestListener\Middlewares\ValidRouteMiddleware;
+use JuanchoSL\RequestListener\Tests\UseCaseCommands;
+
+date_default_timezone_set("Europe/Madrid");
+
+include_once dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+$logger = new Logger((new FileRepository(implode(DIRECTORY_SEPARATOR, ['..', 'logs', 'error.log'])))->setComposer(new TextComposer));
+$errorHandler = (new MyErrorHandler)->setLogErrors(true)->setLogErrorsDetails(true)->setDisplayErrorsDetails(true);
+$errorHandler->setLogger($logger);
+
+$app = new Application();
+$app->setErrorHandler($errorHandler);
+$app->addMiddleware(new AuthenticationMiddleware);
+$app->get('/help', HelpCommands::class);
+$app->addMiddleware(new OutputCompressionMiddleware);
+$app->run(); //call to run, perform a exit in order to process shutdown_functions and exit code from console use
+```
 
 ## Debug

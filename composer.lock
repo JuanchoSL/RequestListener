@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc23f357c9786c79e846947c692176ca",
+    "content-hash": "56acd258f2b2cc2537f383df037eb2bb",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -64,24 +64,27 @@
         },
         {
             "name": "juanchosl/datatransfer",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/DataTransfer.git",
-                "reference": "092c9d1f0c72b936bdb01993a5c25033384f4736"
+                "reference": "72a10497fbcb7ddf16542d6b9dcdf09ae6abae7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/092c9d1f0c72b936bdb01993a5c25033384f4736",
-                "reference": "092c9d1f0c72b936bdb01993a5c25033384f4736",
+                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/72a10497fbcb7ddf16542d6b9dcdf09ae6abae7e",
+                "reference": "72a10497fbcb7ddf16542d6b9dcdf09ae6abae7e",
                 "shasum": ""
             },
             "require": {
+                "composer-runtime-api": "^2.2",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "juanchosl/exceptions": "1.0.*",
+                "juanchosl/httpheaders": "1.0.*",
                 "juanchosl/validators": "1.0.*",
-                "php": "^8.1"
+                "php": "^8.1",
+                "psr/http-server-handler": "1.0.*"
             },
             "require-dev": {
                 "phpstan/phpstan": "1.12.*",
@@ -128,9 +131,9 @@
                 "yaml"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.9"
+                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.10"
             },
-            "time": "2025-06-05T20:55:56+00:00"
+            "time": "2025-06-07T20:12:09+00:00"
         },
         {
             "name": "juanchosl/exceptions",
@@ -182,16 +185,16 @@
         },
         {
             "name": "juanchosl/httpdata",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "0b48eeee55943e739b37aab87f0c641263e0f6aa"
+                "reference": "b57ae60abc2f57d7aebd78006ebd8fa755c08a44"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/0b48eeee55943e739b37aab87f0c641263e0f6aa",
-                "reference": "0b48eeee55943e739b37aab87f0c641263e0f6aa",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/b57ae60abc2f57d7aebd78006ebd8fa755c08a44",
+                "reference": "b57ae60abc2f57d7aebd78006ebd8fa755c08a44",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +202,7 @@
                 "fig/http-message-util": "1.1.*",
                 "juanchosl/exceptions": "1.0.*",
                 "juanchosl/httpheaders": "1.0.*",
-                "php": "^7.1 || ^8.0",
+                "php": "^8.1",
                 "psr/http-client": "1.0.*",
                 "psr/http-factory": "1.1.*",
                 "psr/http-message": "^2.0"
@@ -239,22 +242,22 @@
                 "uri"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.1"
+                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.2"
             },
-            "time": "2025-06-02T19:08:19+00:00"
+            "time": "2025-06-07T19:48:24+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpHeaders.git",
-                "reference": "104824605d37867ab5dbe71a1a97b1b0c467a4e9"
+                "reference": "e599267c674a6295617ebf6c400fe69972a6343a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpHeaders/zipball/104824605d37867ab5dbe71a1a97b1b0c467a4e9",
-                "reference": "104824605d37867ab5dbe71a1a97b1b0c467a4e9",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpHeaders/zipball/e599267c674a6295617ebf6c400fe69972a6343a",
+                "reference": "e599267c674a6295617ebf6c400fe69972a6343a",
                 "shasum": ""
             },
             "require": {
@@ -292,28 +295,28 @@
                 "mime types"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpHeaders/tree/1.0.0"
+                "source": "https://github.com/JuanchoSL/HttpHeaders/tree/1.0.1"
             },
-            "time": "2024-03-05T16:28:02+00:00"
+            "time": "2025-06-06T23:49:10+00:00"
         },
         {
             "name": "juanchosl/logger",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/Logger.git",
-                "reference": "ab9282acaa02dec17c1208b60d3947dade6090ae"
+                "reference": "8ab2c51a112d70b223f6608f48a51e1f656a3ac5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/Logger/zipball/ab9282acaa02dec17c1208b60d3947dade6090ae",
-                "reference": "ab9282acaa02dec17c1208b60d3947dade6090ae",
+                "url": "https://api.github.com/repos/JuanchoSL/Logger/zipball/8ab2c51a112d70b223f6608f48a51e1f656a3ac5",
+                "reference": "8ab2c51a112d70b223f6608f48a51e1f656a3ac5",
                 "shasum": ""
             },
             "require": {
                 "ext-fileinfo": "*",
                 "ext-mbstring": "*",
-                "php": "^7.1 || ^8.0",
+                "php": "^8.1",
                 "psr/log": "3.0.*"
             },
             "require-dev": {
@@ -343,9 +346,9 @@
                 "log"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/Logger/tree/1.1.0"
+                "source": "https://github.com/JuanchoSL/Logger/tree/1.1.1"
             },
-            "time": "2024-12-12T20:40:20+00:00"
+            "time": "2025-06-07T19:42:28+00:00"
         },
         {
             "name": "juanchosl/validators",
@@ -2589,7 +2592,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1 || ^8.0",
+        "php": "^8.1",
         "ext-mbstring": "*"
     },
     "platform-dev": {},
