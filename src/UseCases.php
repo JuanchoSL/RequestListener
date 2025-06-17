@@ -38,14 +38,11 @@ abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
         return $this;
     }
 
-    protected function log(\Stringable|string $message, $log_level, $context = []): void
+    protected function log(\Stringable|string $message, $log_level, array $context = []): void
     {
         if (isset($this->logger)) {
             if ($this->debug || $log_level != 'debug') {
                 $context['memory'] = memory_get_usage();
-                if (!array_key_exists('command', $context)) {
-                    $context['command'] = implode(' ', $_SERVER['argv']);
-                }
                 $this->logger->log($log_level, $message, $context);
             }
         }
