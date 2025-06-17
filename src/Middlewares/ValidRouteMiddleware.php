@@ -16,6 +16,13 @@ class ValidRouteMiddleware implements MiddlewareInterface
         $request = $request->withRequestTarget("/" . ltrim($request->getRequestTarget(), '/ '));
         foreach ($handler->routes as $target => $content) {
             if (preg_match('~^' . preg_replace('~/:(\w+)~', '/(?<$1>\w+)', $target) . '$~i', $request->getRequestTarget(), $results)) {
+                if (!empty($results)) {
+                    foreach ($results as $key => $value) {
+                        if (!is_numeric($key)) {
+                            $request = $request->withAttribute($key, $value);
+                        }
+                    }
+                }
                 return $handler->handle($request);
             }
         }
