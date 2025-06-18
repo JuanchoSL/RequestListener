@@ -102,7 +102,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ConvertCommand implements RequestHandlerInterface
+class ConvertHandler implements RequestHandlerInterface
 {
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -120,7 +120,16 @@ class ConvertCommand implements RequestHandlerInterface
 
 ### Use cases
 
-The Application system, group the routing, methods access, and callables to be executed when the rules has been accomplished. Into the entrypoint, you need to prepare endpoints and his rules to be excuted
+The Application system, group the routing, methods access, and callables to be executed when the rules has been accomplished. Into the entrypoint, you need to prepare endpoints and his rules to be executed.
+
+When you extend the UseCases provided class, a configure method is required, in order to set the valid parameters inorder to perform an autovalidation
+
+The callables can be:
+- A Handler implementing the PSR-15 interface
+- A command, extending the UseCases provided class and implementing an __invoke method with the params:
+    - ServerRequestInterface
+    - ResponseInterface
+- A callable with format [Class, 'method_to_call']
 
 ```php
 <?php
@@ -152,8 +161,49 @@ $app = new Application();
 $app->setErrorHandler($errorHandler);
 $app->addMiddleware(new AuthenticationMiddleware);
 $app->get('/help', HelpCommands::class);
+$app->post('/convert', ConvertCommand::class);
+$app->put('/convert', ConvertHandler::class);
 $app->addMiddleware(new OutputCompressionMiddleware);
-$app->run(); //call to run, perform an exit in order to process shutdown_functions and exit code from console use
+$app->run(); //call to run, performs an exit in order to process shutdown_functions and exit code from console use
+```
+
+#### ExampleCommand
+
+```php
+<?php declare(strict_types=1);
+
+namespace JuanchoSL\RequestListener\Commands;
+
+use Fig\Http\Message\StatusCodeInterface;
+use JuanchoSL\DataTransfer\Factories\DataConverterFactory;
+use JuanchoSL\DataTransfer\Factories\DataTransferFactory;
+use JuanchoSL\HttpData\Factories\StreamFactory;
+use JuanchoSL\HttpHeaders\ContentType;
+use JuanchoSL\RequestListener\Enums\InputArgument;
+use JuanchoSL\RequestListener\Enums\InputOption;
+use JuanchoSL\RequestListener\UseCases;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+class ConvertCommand extends UseCases
+{
+    protected function configure(): void
+    {
+        $this->addArgument('format', InputArgument::OPTIONAL, InputOption::SINGLE);
+    }
+
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $body_contents = DataTransferFactory::byMimeType((string) $request->getBody(), $request->getHeader('content-type'));
+        $content_type = ($request->hasHeader('accept')) ? $request->getHeader('accept') : ContentType::get($request->getQueryParams()['format']);
+        $body = DataConverterFactory::asMimeType($body_contents, $content_type);
+
+        return $response
+            ->withStatus(StatusCodeInterface::STATUS_OK)
+            ->withAddedHeader('content-type', $content_type)
+            ->withBody((new StreamFactory)->createStream($body));
+    }
+}
 ```
 
 ## Debug

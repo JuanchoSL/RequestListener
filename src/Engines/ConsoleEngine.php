@@ -2,7 +2,8 @@
 
 namespace JuanchoSL\RequestListener\Engines;
 
-use JuanchoSL\HttpData\Containers\ServerRequest;
+use JuanchoSL\HttpData\Factories\RequestFactory;
+use JuanchoSL\HttpData\Factories\ServerRequestFactory;
 use JuanchoSL\HttpData\Factories\StreamFactory;
 use JuanchoSL\RequestListener\Contracts\EnginesInterface;
 use JuanchoSL\RequestListener\Enums\OptionsEnum;
@@ -12,7 +13,7 @@ class ConsoleEngine implements EnginesInterface
 {
 
     use EngineTrait;
-
+    
     public static function parse(): static
     {
         $params = [];
@@ -41,11 +42,8 @@ class ConsoleEngine implements EnginesInterface
                 }
             }
         }
-
-        $return = (new ServerRequest)
-            ->withMethod(OptionsEnum::GET->value)
-            ->withQueryParams(static::sanitize($params))
-            ->withRequestTarget($_SERVER['argv'][1] ?? '');
+        $return = (new RequestFactory)
+            ->createRequest(OptionsEnum::GET->value, 'http://' . str_replace("//", '/', gethostname() . "/" . $_SERVER['argv'][1])  . "?" . http_build_query($params));
 
         defined('STDIN') or define('STDIN', fopen('php://input', 'r+'));
         $body = (new StreamFactory())->createStreamFromResource(STDIN);
@@ -55,6 +53,7 @@ class ConsoleEngine implements EnginesInterface
                 $return = $return->withAddedHeader('content-type', $mimetype);
             }
         }
+        $return = (new ServerRequestFactory)->fromRequest($return)->withRequestTarget($_SERVER['argv'][1]);
         return new static($return);
     }
 

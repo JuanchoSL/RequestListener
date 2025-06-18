@@ -13,31 +13,7 @@ class WebEngine implements EnginesInterface
 
     public static function parse(): static
     {
-        $uri = array_key_exists('HTTPS', $_SERVER) && strtoupper($_SERVER['HTTPS']) == 'ON' ? 'https' : 'http';
-        $uri .= '://';
-        foreach (['HTTP_HOST', 'SERVER_NAME', 'HOSTNAME'] as $target) {
-            if (array_key_exists($target, $_SERVER)) {
-                $uri .= $_SERVER[$target];
-                break;
-            }
-        }
-        $uri .= $_SERVER['REQUEST_URI'];
-        foreach (['SCRIPT_URL', 'PATH_INFO', 'REQUEST_URI'] as $target) {
-            if (array_key_exists($target, $_SERVER)) {
-                $target = $_SERVER[$target];
-                break;
-            }
-        }
-
-        if (empty($_GET) && !empty($_SERVER['QUERY_STRING'])) {
-            mb_parse_str($_SERVER['QUERY_STRING'], $get);
-        } else {
-            $get = $_GET;
-        }
-        return new static((new ServerRequestFactory)
-            ->createServerRequest($_SERVER['REQUEST_METHOD'], $uri)
-            ->withQueryParams(static::sanitize($get))
-            ->withRequestTarget($target ?? ''));//SCRIPT_URL || PATH_INFO
+        return new static((new ServerRequestFactory)->fromGlobals());
     }
 
     public function sendMessage(ResponseInterface $response)
