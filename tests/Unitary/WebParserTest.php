@@ -16,10 +16,13 @@ class WebParserTest extends TestCase
         $_SERVER['HTTPS'] = 'OFF';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['REQUEST_URI'] = '/usercase?' . http_build_query([
+        $_SERVER['SCRIPT_URL'] = '/usercase';
+        $_SERVER['QUERY_STRING'] = http_build_query([
             "required_void" => 1,
             "required_multi" => ['a', 'b', 'c']
         ]);
+        $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_URL'] ."?" . $_SERVER['QUERY_STRING'];
+        
         $engine = WebEngine::parse();
         $this->assertInstanceOf(EnginesInterface::class, $engine);
         $request = $engine->getRequest();

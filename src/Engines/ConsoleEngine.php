@@ -13,7 +13,7 @@ class ConsoleEngine implements EnginesInterface
 {
 
     use EngineTrait;
-    
+
     public static function parse(): static
     {
         $params = [];
@@ -43,7 +43,7 @@ class ConsoleEngine implements EnginesInterface
             }
         }
         $return = (new RequestFactory)
-            ->createRequest(OptionsEnum::GET->value, 'http://' . str_replace("//", '/', gethostname() . "/" . $_SERVER['argv'][1])  . "?" . http_build_query($params));
+            ->createRequest(OptionsEnum::GET->value, 'http://' . str_replace("//", '/', gethostname() . "/" . $_SERVER['argv'][1]) . "?" . http_build_query($params));
 
         defined('STDIN') or define('STDIN', fopen('php://input', 'r+'));
         $body = (new StreamFactory())->createStreamFromResource(STDIN);
@@ -60,7 +60,8 @@ class ConsoleEngine implements EnginesInterface
     public function sendMessage(ResponseInterface $response)
     {
         $limit = 4000;
-        $body = (string) $response->getBody() . PHP_EOL;
+        $body = (empty($response->getBody()->getSize())) ? $response->getStatusCode() . " " . $response->getReasonPhrase() : (string) $response->getBody();
+        $body .= PHP_EOL;
         if ($response->getStatusCode() < $limit) {
             defined('STDOUT') or define('STDOUT', fopen('php://output', 'a+'));
             fwrite(STDOUT, $body);

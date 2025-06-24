@@ -13,7 +13,7 @@ class WebEngine implements EnginesInterface
 
     public static function parse(): static
     {
-        return new static((new ServerRequestFactory)->fromGlobals());
+        return new static((new ServerRequestFactory)->fromGlobals()->withRequestTarget($_SERVER['SCRIPT_URL']));
     }
 
     public function sendMessage(ResponseInterface $response)
