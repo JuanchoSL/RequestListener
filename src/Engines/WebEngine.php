@@ -13,6 +13,7 @@ class WebEngine implements EnginesInterface
 
     public static function parse(): static
     {
+        $_SERVER['SCRIPT_URL'] ??= trim(str_replace($_SERVER['QUERY_STRING'] ?? '', '', $_SERVER['REQUEST_URI']), '?');
         return new static((new ServerRequestFactory)->fromGlobals()->withRequestTarget($_SERVER['SCRIPT_URL']));
     }
 
@@ -24,7 +25,9 @@ class WebEngine implements EnginesInterface
                 header("{$name}: " . $response->getHeaderLine($name));
             }
         }
-        echo (string) $response->getBody();
+        if ($response->getBody()->getSize() > 0) {
+            echo (string) $response->getBody();
+        }
 
         return $response->getStatusCode();
     }
