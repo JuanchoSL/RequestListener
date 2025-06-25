@@ -3,8 +3,6 @@
 namespace JuanchoSL\RequestListener\Tests\Functional;
 
 use Fig\Http\Message\StatusCodeInterface;
-use JuanchoSL\Exceptions\DestinationUnreachableException;
-use JuanchoSL\Exceptions\NotFoundException;
 use JuanchoSL\Exceptions\PreconditionRequiredException;
 use JuanchoSL\Logger\Composers\TextComposer;
 use JuanchoSL\Logger\Logger;
@@ -12,8 +10,6 @@ use JuanchoSL\Logger\Repositories\FileRepository;
 use JuanchoSL\RequestListener\Application;
 use JuanchoSL\RequestListener\Handlers\MyErrorHandler;
 use JuanchoSL\RequestListener\Tests\UseCaseCommands;
-use JuanchoSL\Terminal\Console;
-use JuanchoSL\Terminal\Tests\UseCaseCommand;
 use PHPUnit\Framework\TestCase;
 
 class ConsoleTest extends TestCase

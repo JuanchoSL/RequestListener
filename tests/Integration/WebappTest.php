@@ -2,21 +2,14 @@
 
 namespace JuanchoSL\RequestListener\Tests\Integration;
 
-use Fig\Http\Message\RequestMethodInterface;
 use Fig\Http\Message\StatusCodeInterface;
-use JuanchoSL\Exceptions\DestinationUnreachableException;
-use JuanchoSL\Exceptions\MethodNotAllowedException;
-use JuanchoSL\Exceptions\NotFoundException;
 use JuanchoSL\Exceptions\PreconditionRequiredException;
 use JuanchoSL\HttpData\Bodies\Parsers\UrlencodedReader;
-use JuanchoSL\HttpData\Factories\RequestFactory;
-use JuanchoSL\HttpData\Factories\ServerRequestFactory;
 use JuanchoSL\HttpData\Factories\StreamFactory;
 use JuanchoSL\Logger\Composers\TextComposer;
 use JuanchoSL\Logger\Logger;
 use JuanchoSL\Logger\Repositories\FileRepository;
 use JuanchoSL\RequestListener\Application;
-use JuanchoSL\RequestListener\Engines\TestsEngine;
 use JuanchoSL\RequestListener\Engines\WebEngine;
 use JuanchoSL\RequestListener\Handlers\MyErrorHandler;
 use JuanchoSL\RequestListener\Tests\UseCaseCommands;
@@ -44,24 +37,24 @@ class WebappTest extends TestCase
     {
         unset($this->app);
     }
-/*
-    public function testMissingRequired()
-    {
-        $this->expectException(PreconditionRequiredException::class);
+    /*
+        public function testMissingRequired()
+        {
+            $this->expectException(PreconditionRequiredException::class);
 
-        $get = [
-            'required_void' => '',
-            'required_multi' => ['a', 'b', 'c']
-        ];
+            $get = [
+                'required_void' => '',
+                'required_multi' => ['a', 'b', 'c']
+            ];
 
-        $request = (new RequestFactory)->createRequest(RequestMethodInterface::METHOD_GET, 'http://localhost/test?' . http_build_query($get));
-        $server_request = (new ServerRequestFactory)->fromRequest($request);
-        $this->prepare();
-        $code = $this->app->runWithoutExit();
-        $this->assertEquals(0, $this->getStatus());
-        $this->assertEquals(StatusCodeInterface::STATUS_OK, $code);
-    }
-*/
+            $request = (new RequestFactory)->createRequest(RequestMethodInterface::METHOD_GET, 'http://localhost/test?' . http_build_query($get));
+            $server_request = (new ServerRequestFactory)->fromRequest($request);
+            $this->prepare();
+            $code = $this->app->runWithoutExit();
+            $this->assertEquals(0, $this->getStatus());
+            $this->assertEquals(StatusCodeInterface::STATUS_OK, $code);
+        }
+    */
     public function testWithParam()
     {
         $get = [
@@ -73,12 +66,10 @@ class WebappTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $_SERVER['SCRIPT_URL'] = '/test';
         $_SERVER['QUERY_STRING'] = http_build_query($get);
-        //$_SERVER['QUERY_STRING'] = 'required_single=data&required_void=&required_multi[]=a&required_multi[]=b&required_multi[]=c';
         $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_URL'] . '?' . $_SERVER['QUERY_STRING'];
 
         $this->prepare();
         $code = $this->app->runWithoutExit();
-        //$this->assertEquals(0, $this->getStatus());
         $this->assertEquals(StatusCodeInterface::STATUS_OK, $code);
     }
     public function testWithPostBodyUrlEncode()
@@ -86,8 +77,7 @@ class WebappTest extends TestCase
         $this->assertTrue(true);
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['SCRIPT_URL'] = '/test';
-        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['SCRIPT_URL'] = $_SERVER['REQUEST_URI'] = '/test';
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
 
         $post = [
@@ -106,8 +96,7 @@ class WebappTest extends TestCase
         $this->expectException(PreconditionRequiredException::class);
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['SCRIPT_URL'] = '/test';
-        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['SCRIPT_URL'] = $_SERVER['REQUEST_URI'] = '/test';
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
 
         $post = [
@@ -125,8 +114,7 @@ class WebappTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['SCRIPT_URL'] = '/test';
-        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['SCRIPT_URL'] = $_SERVER['REQUEST_URI'] = '/test';
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
 
         $post = [
@@ -145,8 +133,7 @@ class WebappTest extends TestCase
         $this->expectException(PreconditionRequiredException::class);
         $_SERVER['REQUEST_METHOD'] = 'PUT';
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['SCRIPT_URL'] = '/test';
-        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['SCRIPT_URL'] = $_SERVER['REQUEST_URI'] = '/test';
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
 
         $post = [
@@ -164,8 +151,7 @@ class WebappTest extends TestCase
         //$this->expectException(MethodNotAllowedException::class);
         $_SERVER['REQUEST_METHOD'] = 'PATCH';
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['SCRIPT_URL'] = '/test';
-        $_SERVER['REQUEST_URI'] = '/test';
+        $_SERVER['SCRIPT_URL'] = $_SERVER['REQUEST_URI'] = '/test';
         $_SERVER['HTTP_CONTENT_TYPE'] = 'application/x-www-form-urlencoded';
 
         $post = [

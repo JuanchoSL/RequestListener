@@ -57,7 +57,7 @@ class ConsoleEngine implements EnginesInterface
         return new static($return);
     }
 
-    public function sendMessage(ResponseInterface $response)
+    public function sendMessage(ResponseInterface $response): int
     {
         $limit = 4000;
         $body = (empty($response->getBody()->getSize())) ? $response->getStatusCode() . " " . $response->getReasonPhrase() : (string) $response->getBody();

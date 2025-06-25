@@ -11,5 +11,5 @@ interface EnginesInterface
 
     public static function parse(): EnginesInterface;
     public function getRequest(): ServerRequestInterface;
-    public function sendMessage(ResponseInterface $response);
+    public function sendMessage(ResponseInterface $response): int;
 }

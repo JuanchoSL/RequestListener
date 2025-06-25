@@ -38,10 +38,8 @@ class WebParserTest extends TestCase
             ->withAddedHeader('content-type', 'application/x-www-form-urlencoded')
             ->withBody((new StreamFactory)->createStream($body));
         $request = (new ServerRequestFactory)->fromRequest($client);
-        //print_r($request);exit;
         $this->assertInstanceOf(ServerRequestInterface::class, $request);
         $attributes = $request->getParsedBody();
-        //print_r($attributes);exit;
         $this->assertIsArray($attributes);
         $this->assertArrayHasKey('required_multi', $attributes);
         $multi = $attributes['required_multi'];

@@ -16,7 +16,7 @@ class WebEngine implements EnginesInterface
         return new static((new ServerRequestFactory)->fromGlobals()->withRequestTarget($_SERVER['SCRIPT_URL']));
     }
 
-    public function sendMessage(ResponseInterface $response)
+    public function sendMessage(ResponseInterface $response): int
     {
         http_response_code($response->getStatusCode());
         if (!empty($response)) {
@@ -25,6 +25,7 @@ class WebEngine implements EnginesInterface
             }
         }
         echo (string) $response->getBody();
-        return max(200, $response->getStatusCode());
+
+        return $response->getStatusCode();
     }
 }
