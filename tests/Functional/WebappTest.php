@@ -3,9 +3,6 @@
 namespace JuanchoSL\RequestListener\Tests\Functional;
 
 use Fig\Http\Message\StatusCodeInterface;
-use JuanchoSL\Exceptions\DestinationUnreachableException;
-use JuanchoSL\Exceptions\MethodNotAllowedException;
-use JuanchoSL\Exceptions\NotFoundException;
 use JuanchoSL\Exceptions\PreconditionRequiredException;
 use JuanchoSL\HttpData\Bodies\Parsers\UrlencodedReader;
 use JuanchoSL\HttpData\Factories\StreamFactory;
@@ -13,7 +10,6 @@ use JuanchoSL\Logger\Composers\TextComposer;
 use JuanchoSL\Logger\Logger;
 use JuanchoSL\Logger\Repositories\FileRepository;
 use JuanchoSL\RequestListener\Application;
-use JuanchoSL\RequestListener\Engines\TestsEngine;
 use JuanchoSL\RequestListener\Engines\WebEngine;
 use JuanchoSL\RequestListener\Handlers\MyErrorHandler;
 use JuanchoSL\RequestListener\Tests\UseCaseCommands;
@@ -73,7 +69,6 @@ class WebappTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $_SERVER['SCRIPT_URL'] = '/test';
         $_SERVER['QUERY_STRING'] = http_build_query($get);
-        //$_SERVER['QUERY_STRING'] = 'required_single=data&required_void=&required_multi[]=a&required_multi[]=b&required_multi[]=c';
         $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_URL'] . '?' . $_SERVER['QUERY_STRING'];
 
         $this->prepare();

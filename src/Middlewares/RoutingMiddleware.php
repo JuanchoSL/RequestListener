@@ -27,17 +27,6 @@ class RoutingMiddleware implements MiddlewareInterface
         
         if ($result->isSuccess()) {
             return $result->getHandler()->handle($request);
-            if ($request->getMethod() == RequestMethodInterface::METHOD_OPTIONS) {
-                $response = (new ResponseFactory)->createResponse(StatusCodeInterface::STATUS_NO_CONTENT)
-                ->withHeader('Allow', array_keys($handler->routes[$request->getRequestTarget()]))
-                    ->withBody((new StreamFactory)->createStream());
-            } else {
-                $response = $result->getHandler()->handle($request);
-                if ($request->getMethod() == RequestMethodInterface::METHOD_HEAD) {
-                    $response = $response->withBody((new StreamFactory)->createStream());
-                }
-            }
-            return $response;
         } else {
             return $handler->handle($request);
         }
