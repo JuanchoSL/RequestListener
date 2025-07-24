@@ -2,13 +2,10 @@
 
 namespace JuanchoSL\RequestListener;
 
+use JuanchoSL\HttpData\Factories\ServerRequestFactory;
+use JuanchoSL\RequestListener\Commands\HelpCommands;
 use JuanchoSL\RequestListener\Contracts\EnginesInterface;
-use JuanchoSL\RequestListener\Contracts\ErrorHandlerInterface;
 use JuanchoSL\RequestListener\Contracts\MiddlewareableInterface;
-use JuanchoSL\RequestListener\Contracts\UseCaseInterface;
-use JuanchoSL\RequestListener\Entities\Router;
-use JuanchoSL\RequestListener\Entities\RouterGroup;
-use JuanchoSL\RequestListener\Enums\OptionsEnum;
 use JuanchoSL\RequestListener\Handlers\NotAllowedResponseHandler;
 use JuanchoSL\RequestListener\Handlers\QueueRequestHandler;
 use JuanchoSL\RequestListener\Middlewares\HeadMethodMiddleware;
@@ -22,22 +19,33 @@ use JuanchoSL\DataTransfer\Repositories\CsvDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\ExcelCsvDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\JsonDataTransfer;
 use JuanchoSL\DataTransfer\Repositories\XmlDataTransfer;
+use JuanchoSL\RequestListener\Traits\AppendMethodsTrait;
+use JuanchoSL\RequestListener\Traits\ErrorControlTrait;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-class Application implements LoggerAwareInterface
+class Application implements LoggerAwareInterface, ClientInterface
 {
-    use LoggerAwareTrait;
+    use LoggerAwareTrait, AppendMethodsTrait, ErrorControlTrait;
 
-    protected ?RouterGroup $group = null;
-    protected string $basePattern = '';
-    protected ErrorHandlerInterface $error_handler;
+    protected static Application $instance;
     protected EnginesInterface $stream;
     protected QueueRequestHandler $main_handler;
     protected array $body_parser = [];
     protected bool $debug = false;
 
+    public static function getInstance(?EnginesInterface $engine = null)
+    {
+        if (empty(static::$instance)) {
+            static::$instance = new self($engine);
+        }
+        return static::$instance;
+    }
     public function __construct(?EnginesInterface $engine = null)
     {
         if (!is_null($engine)) {
@@ -55,13 +63,14 @@ class Application implements LoggerAwareInterface
         //$this->addMiddleware(new ValidMethodMiddleware);
         //$this->addMiddleware(new ValidMediaTypeMiddleware);
         $this->addBodyParser('application/json', JsonDataTransfer::class);
+        $this->addBodyParser('text/xml', XmlDataTransfer::class);
         $this->addBodyParser('application/xml', XmlDataTransfer::class);
         $this->addBodyParser('text/csv', CsvDataTransfer::class);
         $this->addBodyParser('application/csv', ExcelCsvDataTransfer::class);
         $this->addBodyParser('application/x-www-form-urlencoded', ArrayDataTransfer::class);
         $this->addBodyParser('multipart/form-data', ArrayDataTransfer::class);
     }
-    public function addBodyParser(string $media_type, $parser): static
+    public function addBodyParser(string $media_type, string|array|callable $parser): static
     {
         $this->body_parser[$media_type] = $parser;
         return $this;
@@ -71,98 +80,46 @@ class Application implements LoggerAwareInterface
         return $this->main_handler->addMiddleware($middleware);
     }
 
-    public function handlerException(\Throwable $error, $context = [])
-    {
-        $this->stream->sendMessage(call_user_func_array($this->error_handler, [$this->stream->getRequest(), $error]));
-    }
-
-    public function setErrorHandler(ErrorHandlerInterface $error_handler): static
-    {
-        set_exception_handler([$this, 'handlerException']);
-        $this->error_handler = $error_handler;
-        return $this;
-    }
-
     public function setDebug(bool $debug = false): static
     {
         $this->debug = $debug;
         return $this;
     }
 
-    public function cli(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        return $this->add($alias, $command, OptionsEnum::CLI);
+        return $this->handle((new ServerRequestFactory)->fromRequest($request));
     }
 
-    public function get(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->add($alias, $command, OptionsEnum::GET);
-    }
-
-    public function post(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
-    {
-        return $this->add($alias, $command, OptionsEnum::POST);
-    }
-
-    public function put(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
-    {
-        return $this->add($alias, $command, OptionsEnum::PUT);
-    }
-
-    public function patch(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
-    {
-        return $this->add($alias, $command, OptionsEnum::PATCH);
-    }
-    public function delete(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
-    {
-        return $this->add($alias, $command, OptionsEnum::DELETE);
-    }
-
-    protected function add(string $alias, UseCaseInterface|callable|string|array $command, OptionsEnum ...$valid_options): ?MiddlewareableInterface
-    {
-        foreach ($valid_options as $option) {
-            $route = new Router(strtoupper($option->value), $this->basePattern . $alias, $command);
-            $route = $this->main_handler->add($route);
-            if (!empty($this->group)) {
-                $this->group->add($route);
+        if ($request->getBody()->getSize() > 0) {
+            $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
+            $body = trim($body, " \r\n");
+            if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser)) {
+                $parser = $this->body_parser[current($request->getHeader('content-type'))];
+                if (is_array($parser)) {
+                    $body = call_user_func($parser, $body);
+                } elseif (is_object($parser)) {
+                    $body = $parser($body);
+                } else {
+                    $body = new $parser($body);
+                }
+                $request = $request->withParsedBody($body);
             }
-            return $route;
         }
-        return null;
-    }
-
-    public function group($pattern, \Closure $callable): MiddlewareableInterface
-    {
-        $oldBasePattern = $this->basePattern;
-        $group = $this->group;
-        $this->basePattern .= $pattern;
-        $this->group = $new_group = new RouterGroup();
-        if (is_callable($callable)) {
-            call_user_func($callable);
-        }
-        $this->group = $group;
-        if (!empty($this->group)) {
-            $this->group->add($new_group);
-        }
-        $this->basePattern = $oldBasePattern;
-        return $new_group;
+        return $this->main_handler->handle($request);
     }
 
     public function runWithoutExit()
     {
         $request = $this->stream->getRequest();
-        if ($request->getBody()->getSize() > 0) {
-            $body = (empty($request->getParsedBody())) ? (string) $request->getBody() : $request->getParsedBody();
-            if (array_key_exists(current($request->getHeader('content-type')), $this->body_parser)) {
-                $parser = $this->body_parser[current($request->getHeader('content-type'))];
-                $body = new $parser($body);
-                $request = $request->withParsedBody($body);
-            }
-        }
-        return $this->stream->sendMessage($this->main_handler->handle($request));
+        //$this->get('/help', (new HelpCommands)->setCommands($this->main_handler->getRoutes()));
+        return $this->stream->sendMessage($this->handle($request));
     }
+
     public function run(int $limit_code = 400)
     {
-        return exit(max($limit_code, $this->runWithoutExit()));
+        return exit(max(0, $this->runWithoutExit() - ($limit_code - 1)));
     }
 }
