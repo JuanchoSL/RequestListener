@@ -122,33 +122,25 @@ class ConvertHandler implements RequestHandlerInterface
 
 The Application system, group the routing, methods access, and callables to be executed when the rules has been accomplished. Into the entrypoint, you need to prepare endpoints and his rules to be executed.
 
-When you extend the UseCases provided class, a configure method is required, in order to set the valid parameters inorder to perform an autovalidation
+When you extend the UseCases provided class, a **configure** method is required, in order to set the valid parameters, performing an autovalidation
 
 The callables can be:
 - A Handler implementing the PSR-15 interface
-- A command, extending the UseCases provided class and implementing an __invoke method with the params:
+- A command, extending the UseCases provided class and implementing an **__invoke** method with the params:
     - ServerRequestInterface
     - ResponseInterface
-- A callable with format [Class, 'method_to_call']
+- A callable with format ```[Class, 'method_to_call']```
 
 ```php
 <?php
 
-use JuanchoSL\HttpData\Factories\ResponseFactory;
-use JuanchoSL\RequestListener\Commands\HelpCommands;
-use JuanchoSL\RequestListener\Engines\ConsoleEngine;
-use JuanchoSL\RequestListener\Entities\Router;
-use JuanchoSL\RequestListener\Handlers\NotAllowedResponseHandler;
-use JuanchoSL\RequestListener\Handlers\QueueRequestHandler;
-use JuanchoSL\Logger\Composers\TextComposer;
 use JuanchoSL\Logger\Logger;
+use JuanchoSL\Logger\Composers\TextComposer;
 use JuanchoSL\Logger\Repositories\FileRepository;
 use JuanchoSL\RequestListener\Application;
 use JuanchoSL\RequestListener\Handlers\MyErrorHandler;
 use JuanchoSL\RequestListener\Middlewares\AuthenticationMiddleware;
 use JuanchoSL\RequestListener\Middlewares\OutputCompressionMiddleware;
-use JuanchoSL\RequestListener\Middlewares\ValidRouteMiddleware;
-use JuanchoSL\RequestListener\Tests\UseCaseCommands;
 
 date_default_timezone_set("Europe/Madrid");
 
@@ -160,7 +152,6 @@ $errorHandler->setLogger($logger);
 $app = new Application();
 $app->setErrorHandler($errorHandler);
 $app->addMiddleware(new AuthenticationMiddleware);
-$app->get('/help', HelpCommands::class);
 $app->post('/convert', ConvertCommand::class);
 $app->put('/convert', ConvertHandler::class);
 $app->addMiddleware(new OutputCompressionMiddleware);

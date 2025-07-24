@@ -19,8 +19,8 @@ class WebEngine implements EnginesInterface
 
     public function sendMessage(ResponseInterface $response): int
     {
-        http_response_code($response->getStatusCode());
-        if (!empty($response)) {
+        if (!empty($response) && !headers_sent()) {
+            http_response_code($response->getStatusCode());
             foreach ($response->getHeaders() as $name => $value) {
                 header("{$name}: " . $response->getHeaderLine($name));
             }

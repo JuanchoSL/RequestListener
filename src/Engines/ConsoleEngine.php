@@ -45,7 +45,7 @@ class ConsoleEngine implements EnginesInterface
         $return = (new RequestFactory)
             ->createRequest(OptionsEnum::GET->value, 'http://' . str_replace("//", '/', gethostname() . "/" . $_SERVER['argv'][1]) . "?" . http_build_query($params));
 
-        defined('STDIN') or define('STDIN', fopen('php://input', 'r+'));
+        defined('STDIN') or define('STDIN', fopen('php://input', 'a+'));
         $body = (new StreamFactory())->createStreamFromResource(STDIN);
         if ($body->getSize() > 0) {
             $return = $return->withBody($body)->withMethod(OptionsEnum::POST->value);
