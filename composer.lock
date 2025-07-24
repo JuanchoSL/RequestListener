@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56acd258f2b2cc2537f383df037eb2bb",
+    "content-hash": "ced8cf5696b0b83611794925db4c6597",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -64,16 +64,16 @@
         },
         {
             "name": "juanchosl/datatransfer",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/DataTransfer.git",
-                "reference": "72a10497fbcb7ddf16542d6b9dcdf09ae6abae7e"
+                "reference": "0775acd2d2d359924ec1057768ca4353abffa790"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/72a10497fbcb7ddf16542d6b9dcdf09ae6abae7e",
-                "reference": "72a10497fbcb7ddf16542d6b9dcdf09ae6abae7e",
+                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/0775acd2d2d359924ec1057768ca4353abffa790",
+                "reference": "0775acd2d2d359924ec1057768ca4353abffa790",
                 "shasum": ""
             },
             "require": {
@@ -131,9 +131,9 @@
                 "yaml"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.10"
+                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.11"
             },
-            "time": "2025-06-07T20:12:09+00:00"
+            "time": "2025-06-16T15:58:01+00:00"
         },
         {
             "name": "juanchosl/exceptions",
@@ -185,16 +185,16 @@
         },
         {
             "name": "juanchosl/httpdata",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "b57ae60abc2f57d7aebd78006ebd8fa755c08a44"
+                "reference": "27eef69c436c8b8b2038aa96bcfaaf4546801d83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/b57ae60abc2f57d7aebd78006ebd8fa755c08a44",
-                "reference": "b57ae60abc2f57d7aebd78006ebd8fa755c08a44",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/27eef69c436c8b8b2038aa96bcfaaf4546801d83",
+                "reference": "27eef69c436c8b8b2038aa96bcfaaf4546801d83",
                 "shasum": ""
             },
             "require": {
@@ -242,9 +242,9 @@
                 "uri"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.2"
+                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.3"
             },
-            "time": "2025-06-07T19:48:24+00:00"
+            "time": "2025-06-16T16:01:54+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
@@ -850,16 +850,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.13.1",
+            "version": "1.13.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c"
+                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/1720ddd719e16cf0db4eb1c6eca108031636d46c",
-                "reference": "1720ddd719e16cf0db4eb1c6eca108031636d46c",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/faed855a7b5f4d4637717c2b3863e277116beb36",
+                "reference": "faed855a7b5f4d4637717c2b3863e277116beb36",
                 "shasum": ""
             },
             "require": {
@@ -898,7 +898,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.1"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.3"
             },
             "funding": [
                 {
@@ -906,7 +906,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-04-29T12:36:36+00:00"
+            "time": "2025-07-05T12:25:42+00:00"
         },
         {
             "name": "nikic/php-parser",
