@@ -43,19 +43,21 @@ class Router implements RouterInterface, MiddlewareableInterface
         return $this;
     }
 
-    public function checkTarget(string $target, &$results = []): bool
+    public function checkTarget(string $target, &$results = [])
     {
-        return preg_match('~^' . preg_replace('~/:([\w.-=]+)~', '/(?<$1>[\w.-=]+)', $this->target) . '$~i', $target, $results) !== false;
+        return preg_match('~^' . preg_replace('~/:([\w.-=]+)~', '/(?<$1>[\w.-=]+)', $this->target) . '$~i', $target, $results);
     }
     public function match(ServerRequestInterface $request): RouterResultInterface
     {
         $arguments = [];
         $router_result = new RouterResult();
         if ($request->getMethod() == $this->method && $this->checkTarget($request->getRequestTarget(), $results)) {
-            foreach ($results as $name => $result) {
-                if (!is_numeric($name)) {
-                    $request = $request->withAttribute($name, $result);
-                    $arguments[$name] = $result;
+            if (!empty($results)) {
+                foreach ($results as $name => $result) {
+                    if (!is_numeric($name)) {
+                        $request = $request->withAttribute($name, $result);
+                        $arguments[$name] = $result;
+                    }
                 }
             }
             $request = $request->withRequestTarget($this->target);
