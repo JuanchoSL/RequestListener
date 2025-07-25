@@ -45,7 +45,7 @@ class Router implements RouterInterface, MiddlewareableInterface
 
     public function checkTarget(string $target, &$results = [])
     {
-        return preg_match('~^' . preg_replace('~/:([\w.-=]+)~', '/(?<$1>[\w.-=]+)', $this->target) . '$~i', $target, $results);
+        return preg_match('~^' . preg_replace('~/:([^/]+)~', '/(?<$1>[^/]+)', $this->target). '$~i', $target, $results);
     }
     public function match(ServerRequestInterface $request): RouterResultInterface
     {
