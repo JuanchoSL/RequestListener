@@ -16,7 +16,7 @@ class QueueRequestHandler extends QueueMiddlewaresHandler implements RouteableIn
 
     public function add(RouterInterface $router): RouterInterface
     {
-        $this->routes[$router->getTarget()][$router->getMethod()] = true;
+        $this->routes[$router->getTarget()][$router->getMethod()] = $router;
         $this->paths[] = new RoutingMiddleware($router);
         return $router;
     }

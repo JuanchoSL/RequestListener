@@ -4,6 +4,7 @@ namespace JuanchoSL\RequestListener\Middlewares;
 
 use Fig\Http\Message\StatusCodeInterface;
 use JuanchoSL\HttpData\Factories\ResponseFactory;
+use JuanchoSL\HttpData\Factories\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -14,20 +15,14 @@ class ValidRouteMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $request = $request->withRequestTarget("/" . ltrim($request->getRequestTarget(), '/ '));
-        foreach ($handler->routes as $target => $content) {
-            if (preg_match('~^' . preg_replace('~/:(\w+)~', '/(?<$1>\w+)', $target) . '$~i', $request->getRequestTarget(), $results)) {
-                if (!empty($results)) {
-                    foreach ($results as $key => $value) {
-                        if (!is_numeric($key)) {
-                            $request = $request->withAttribute($key, $value);
-                        }
-                    }
-                }
+        foreach ($handler->routes as $target => $contents) {
+            if (current($contents)->checkTarget($request->getRequestTarget())) {
                 return $handler->handle($request);
             }
         }
         return (new ResponseFactory)
             ->createResponse(StatusCodeInterface::STATUS_NOT_FOUND)
+            ->withBody((new StreamFactory)->createStream("The target {$request->getUri()->getPath()} does not exists"))
             ->withProtocolVersion($request->getProtocolVersion());
     }
 }
