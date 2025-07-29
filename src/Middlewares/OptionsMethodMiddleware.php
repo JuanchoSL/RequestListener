@@ -16,9 +16,9 @@ class OptionsMethodMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($request->getMethod() == RequestMethodInterface::METHOD_OPTIONS) {
-            foreach ($handler->routes as $target => $content) {
-                if (preg_match('~^' . preg_replace('~/:(\w+)~', '/(?<$1>\w+)', $target) . '$~i', $request->getRequestTarget(), $results)) {
-                    return (new ResponseFactory)->createResponse(StatusCodeInterface::STATUS_NO_CONTENT)->withHeader('Allow', array_keys($content))->withBody((new StreamFactory)->createStream());
+            foreach ($handler->routes as $target => $contents) {
+                if (current($contents)->checkTarget($request->getRequestTarget())) {
+                    return (new ResponseFactory)->createResponse(StatusCodeInterface::STATUS_NO_CONTENT)->withHeader('Allow', array_keys($contents))->withBody((new StreamFactory)->createStream());
                 }
             }
         }
