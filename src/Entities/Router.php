@@ -43,25 +43,29 @@ class Router implements RouterInterface, MiddlewareableInterface
         return $this;
     }
 
+    public function checkTarget(string $target, &$results = [])
+    {
+        return preg_match('~^' . preg_replace('~/:([^/]+)~', '/(?<$1>[^/]+)', $this->target). '$~i', $target, $results);
+    }
     public function match(ServerRequestInterface $request): RouterResultInterface
     {
         $arguments = [];
         $router_result = new RouterResult();
-        if ($request->getMethod() == $this->method) {
-            if (preg_match('~^' . preg_replace('~/:(\w+)~', '/(?<$1>\w+)', $this->target) . '$~i', $request->getRequestTarget(), $results)) {
+        if ($request->getMethod() == $this->method && $this->checkTarget($request->getRequestTarget(), $results)) {
+            if (!empty($results)) {
                 foreach ($results as $name => $result) {
                     if (!is_numeric($name)) {
                         $request = $request->withAttribute($name, $result);
                         $arguments[$name] = $result;
                     }
                 }
-                $request = $request->withRequestTarget($this->target);
-                $handler = new QueueMiddlewaresHandler(new RequestHandler($this->call, $arguments));
-                foreach (array_reverse($this->middlewares) as $middleware) {
-                    $handler->addMiddleware($middleware);
-                }
-                $router_result->setHandler($handler);
             }
+            $request = $request->withRequestTarget($this->target);
+            $handler = new QueueMiddlewaresHandler(new RequestHandler($this->call, $arguments));
+            foreach (array_reverse($this->middlewares) as $middleware) {
+                $handler->addMiddleware($middleware);
+            }
+            $router_result->setHandler($handler);
         }
         return $router_result;
     }

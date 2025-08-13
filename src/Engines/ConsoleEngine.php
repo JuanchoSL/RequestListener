@@ -42,6 +42,9 @@ class ConsoleEngine implements EnginesInterface
                 }
             }
         }
+        if (!array_key_exists(1, $_SERVER['argv'])) {
+            $_SERVER['argv'][1] = '/';
+        }
         $return = (new RequestFactory)
             ->createRequest(OptionsEnum::GET->value, 'http://' . str_replace("//", '/', gethostname() . "/" . $_SERVER['argv'][1]) . "?" . http_build_query($params));
 
