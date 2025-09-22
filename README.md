@@ -83,6 +83,12 @@ class AuthorizationMiddleware implements MiddlewareInterface
 }
 ```
 
+#### Other available Middlewares
+
+- CacheMiddleware: Use any compatible PSR-16 library in order to check, load and save web caches
+- OutputCompressionMiddleware: Compress http responses using native libraries (deflate and gzip)
+- DebugXhprofMiddleware
+
 ### Request handlers
 
 According the PSR-15, you can create and execute your own [RequestHandlers](https://www.php-fig.org/psr/psr-15/#21-psrhttpserverrequesthandlerinterface "RequestHandlers")
@@ -125,11 +131,12 @@ The Application system, group the routing, methods access, and callables to be e
 When you extend the UseCases provided class, a **configure** method is required, in order to set the valid parameters, performing an autovalidation
 
 The callables can be:
+
 - A Handler implementing the PSR-15 interface
-- A command, extending the UseCases provided class and implementing an **__invoke** method with the params:
-    - ServerRequestInterface
-    - ResponseInterface
-- A callable with format ```[Class, 'method_to_call']```
+- A command, extending the UseCases provided class and implementing an **\_\_invoke** method with the params:
+  - ServerRequestInterface
+  - ResponseInterface
+- A callable with format `[Class, 'method_to_call']`
 
 ```php
 <?php
