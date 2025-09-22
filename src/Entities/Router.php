@@ -47,7 +47,7 @@ class Router implements RouterInterface, MiddlewareableInterface
     {
         return preg_match('~^' . preg_replace('~/:([^/]+)~', '/(?<$1>[^/]+)', $this->target). '$~i', $target, $results);
     }
-    public function match(ServerRequestInterface $request): RouterResultInterface
+    public function match(ServerRequestInterface &$request): RouterResultInterface
     {
         $arguments = [];
         $router_result = new RouterResult();

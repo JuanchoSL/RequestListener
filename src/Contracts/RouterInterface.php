@@ -8,5 +8,5 @@ interface RouterInterface
 {
     public function getTarget(): string;
     public function getMethod(): string;
-    public function match(ServerRequestInterface $request): RouterResultInterface;
+    public function match(ServerRequestInterface &$request): RouterResultInterface;
 }
