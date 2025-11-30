@@ -4,6 +4,7 @@
     "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/JuanchoSL/RequestListener",
+    "minimum-stability": "dev",
     "keywords": [
         "http",
         "stream",
