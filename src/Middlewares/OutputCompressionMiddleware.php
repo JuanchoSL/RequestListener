@@ -20,19 +20,36 @@ class OutputCompressionMiddleware implements MiddlewareInterface
             foreach ($accepts as $accept) {
                 $accept = trim($accept);
                 switch ($accept) {
+                    case 'br':
+                        if (function_exists('brotli_compress')) {
+                            $compressed = brotli_compress((string) $response->getBody());
+                        }
+                        break;
+
                     case 'deflate':
-                        $compressed = gzcompress((string) $response->getBody());
+                        if (function_exists('gzcompress')) {
+                            $compressed = gzcompress((string) $response->getBody());
+                        }
                         break;
 
                     case 'gzip':
-                        $compressed = gzencode((string) $response->getBody());
+                        if (function_exists('gzencode')) {
+                            $compressed = gzencode((string) $response->getBody());
+                        }
+                        break;
+
+                    case 'zstd':
+                        if (function_exists('zstd_compress')) {
+                            $compressed = zstd_compress((string) $response->getBody());
+                        }
                         break;
                 }
                 if (!empty($compressed)) {
                     $compressed = (new StreamFactory)->createStream($compressed);
                     return $response
-                        ->withAddedHeader('Content-Encoding', $accept)
-                        ->withAddedHeader('Content-Length', (string) $compressed->getSize())
+                        ->withHeader('Vary', 'Accept-Encoding')
+                        ->withHeader('Content-Encoding', $accept)
+                        ->withHeader('Content-Length', (string) $compressed->getSize())
                         ->withBody($compressed);
                 }
             }
