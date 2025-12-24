@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a026c871208b48d77e9a1ccd7daf5612",
+    "content-hash": "8b85db1debfd79f52bf71ea10c6425d9",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -140,21 +140,21 @@
         },
         {
             "name": "juanchosl/exceptions",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/Exceptions.git",
-                "reference": "33dc8fdef16bf2d084116eb8a9ea668254d01426"
+                "reference": "b8b61554a918c26bb8e0b8d5ef9f5e1f80045bf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/Exceptions/zipball/33dc8fdef16bf2d084116eb8a9ea668254d01426",
-                "reference": "33dc8fdef16bf2d084116eb8a9ea668254d01426",
+                "url": "https://api.github.com/repos/JuanchoSL/Exceptions/zipball/b8b61554a918c26bb8e0b8d5ef9f5e1f80045bf8",
+                "reference": "b8b61554a918c26bb8e0b8d5ef9f5e1f80045bf8",
                 "shasum": ""
             },
             "require": {
                 "fig/http-message-util": "1.1.*",
-                "php": "^7.1 || ^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "9.6.*"
@@ -172,8 +172,9 @@
             "authors": [
                 {
                     "name": "Juan Sánchez Lecegui",
-                    "email": "JuanchoSL@hotmail.com",
-                    "homepage": "https://github.com/JuanchoSL/"
+                    "email": "Juan.Sanchez@tecnicosweb.com",
+                    "homepage": "https://www.linkedin.com/in/juansanchezlecegui/",
+                    "role": "Developer"
                 }
             ],
             "description": "A small, lightweight collection of Exceptions that are using the standard status codes for use on requests",
@@ -182,9 +183,9 @@
                 "exceptions"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/Exceptions/tree/1.0.5"
+                "source": "https://github.com/JuanchoSL/Exceptions/tree/1.0.6"
             },
-            "time": "2025-05-23T19:59:31+00:00"
+            "time": "2025-12-05T17:35:35+00:00"
         },
         {
             "name": "juanchosl/httpdata",
@@ -914,16 +915,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.6.2",
+            "version": "v5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "3a454ca033b9e06b63282ce19562e892747449bb"
+                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/3a454ca033b9e06b63282ce19562e892747449bb",
-                "reference": "3a454ca033b9e06b63282ce19562e892747449bb",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/dca41cd15c2ac9d055ad70dbfd011130757d1f82",
+                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82",
                 "shasum": ""
             },
             "require": {
@@ -966,9 +967,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.6.2"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
             },
-            "time": "2025-10-21T19:32:17+00:00"
+            "time": "2025-12-06T11:56:16+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1467,16 +1468,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.29",
+            "version": "9.6.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3"
+                "reference": "945d0b7f346a084ce5549e95289962972c4272e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
-                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/945d0b7f346a084ce5549e95289962972c4272e5",
+                "reference": "945d0b7f346a084ce5549e95289962972c4272e5",
                 "shasum": ""
             },
             "require": {
@@ -1550,7 +1551,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.29"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.31"
             },
             "funding": [
                 {
@@ -1574,7 +1575,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:29:11+00:00"
+            "time": "2025-12-06T07:45:52+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -2640,9 +2641,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "juanchosl/datatransfer": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -2650,5 +2649,5 @@
         "ext-mbstring": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
