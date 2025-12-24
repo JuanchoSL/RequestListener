@@ -29,7 +29,7 @@ class RequestHandler implements RequestHandlerInterface
         if (is_array($command)) {
             list($command, $function) = $command;
         }
-        if (!is_object($command)) {
+        if (!is_object($command) && !is_callable($command)) {
             $command = new $command;
         }
 
@@ -43,8 +43,9 @@ class RequestHandler implements RequestHandlerInterface
                 $function = 'run';
             }
         }
-        return $response = call_user_func_array([$command, $function], [$request, $response, $this->arguments]);
-        
+        $callable = (empty($function)) ? $command : [$command, $function];
+        return $response = call_user_func_array($callable, [$request, $response, $this->arguments]);
+
         if (empty($function) || $command instanceof RequestHandlerInterface) {
             return $response = call_user_func_array([$command, 'handle'], [$request]);
         }
