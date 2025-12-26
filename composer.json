@@ -4,6 +4,7 @@
     "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/JuanchoSL/RequestListener",
+    "minimum-stability": "dev",
     "keywords": [
         "http",
         "stream",
@@ -32,9 +33,10 @@
         "psr/http-server-middleware": "1.0.*",
         "fig/http-message-util": "1.1.*",
         "juanchosl/exceptions": "1.0.*",
-        "juanchosl/datatransfer": "1.0.*",
+        "juanchosl/datamanipulation": "dev-master",
+        "juanchosl/datatransfer": "dev-develop",
         "juanchosl/logger": "1.1.*",
-        "juanchosl/httpdata": "1.0.*"
+        "juanchosl/httpdata": "dev-develop"
     },
     "suggest": {
         "juanchosl/logger": "^1.1"
