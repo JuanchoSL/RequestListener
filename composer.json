@@ -36,7 +36,7 @@
         "juanchosl/datamanipulation": "dev-master",
         "juanchosl/datatransfer": "dev-develop",
         "juanchosl/logger": "1.1.*",
-        "juanchosl/httpdata": "dev-develop"
+        "juanchosl/httpdata": "1.0.*"
     },
     "suggest": {
         "juanchosl/logger": "^1.1"
