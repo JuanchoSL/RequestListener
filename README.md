@@ -47,11 +47,20 @@ The parameter name needs to start with --, then can assign values from:
 
 #### PRE middlewares
 
+##### Enabled by default
+
 - ValidRouteMiddleware: Check than the selected target is defined and exists
 - OptionsMethodMiddleware: Return a response with the available METHODs for the selected target
 - TraceMethodMiddleware: Check if the TRACE method is available for the selected target
+- HeadMethodMiddleware: If the request is a HEAD method request, convert to GET, process it and remove the body before return to client
+
+##### Available for use
+
 - ValidMethodMiddleware: Check if the requested method is available, if a HEAD method is selected, we convert to a GET before check it, and remove the body from response if it is availble
 - ValidMediaTypeMiddleware: Check if any accepted media-type from the request is available
+- CacheMiddleware: Can enable this available middleware providing a PSR-16 SimpleCacheInterface in order to use it
+- OutputCompressionMiddleware: Using this available middleware, can compress or encodig response bodies, accord the _Accept-Encoding_ client header, in **br**(brotli), **zstd**, **deflate** or **gzip**
+- RateLimitMiddleware: In order to count the UNAUTHORIZED responses and block the client using SESSION for N seconds, can indicate the num of failed counts and the banned seconds 
 
 #### User Defined PRE middlewares
 

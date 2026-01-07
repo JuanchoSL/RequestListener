@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b85db1debfd79f52bf71ea10c6425d9",
+    "content-hash": "89041f80b0e0ad20a0cc9dcde648262f",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -61,6 +61,60 @@
                 "source": "https://github.com/php-fig/http-message-util/tree/1.1.5"
             },
             "time": "2020-11-24T22:02:12+00:00"
+        },
+        {
+            "name": "juanchosl/datamanipulation",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JuanchoSL/DataManipulation.git",
+                "reference": "0a3f3e6efa2efc0f92c54d66163042df9a0e6a3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JuanchoSL/DataManipulation/zipball/0a3f3e6efa2efc0f92c54d66163042df9a0e6a3c",
+                "reference": "0a3f3e6efa2efc0f92c54d66163042df9a0e6a3c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "1.12.*",
+                "phpunit/phpunit": "9.6.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JuanchoSL\\DataManipulation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Juan Sánchez Lecegui",
+                    "email": "Juan.Sanchez@tecnicosweb.com",
+                    "homepage": "https://www.linkedin.com/in/juansanchezlecegui/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Little methods collection in order to manipulate variables contents",
+            "homepage": "https://github.com/JuanchoSL/DataManipulation",
+            "keywords": [
+                "arrays",
+                "manipulation",
+                "numbers",
+                "strings",
+                "variables"
+            ],
+            "support": {
+                "source": "https://github.com/JuanchoSL/DataManipulation/tree/1.0.0"
+            },
+            "time": "2026-01-07T09:32:44+00:00"
         },
         {
             "name": "juanchosl/datatransfer",
@@ -189,16 +243,16 @@
         },
         {
             "name": "juanchosl/httpdata",
-            "version": "1.0.5",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "71f0a27c43ac326b5d62bd036756eaafff4a780b"
+                "reference": "21475824f6b6afe2d69410c8e33c1bce45bff809"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/71f0a27c43ac326b5d62bd036756eaafff4a780b",
-                "reference": "71f0a27c43ac326b5d62bd036756eaafff4a780b",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/21475824f6b6afe2d69410c8e33c1bce45bff809",
+                "reference": "21475824f6b6afe2d69410c8e33c1bce45bff809",
                 "shasum": ""
             },
             "require": {
@@ -206,14 +260,14 @@
                 "fig/http-message-util": "1.1.*",
                 "juanchosl/exceptions": "1.0.*",
                 "juanchosl/httpheaders": "1.0.*",
-                "php": "^8.1",
+                "php": "^8.0",
                 "psr/http-client": "1.0.*",
                 "psr/http-factory": "1.1.*",
                 "psr/http-message": "2.0.*"
             },
             "require-dev": {
                 "phpstan/phpstan": "1.12.*",
-                "phpunit/phpunit": "9.6.*"
+                "phpunit/phpunit": "10.5.*"
             },
             "type": "library",
             "autoload": {
@@ -228,8 +282,9 @@
             "authors": [
                 {
                     "name": "Juan Sánchez Lecegui",
-                    "email": "JuanchoSL@hotmail.com",
-                    "homepage": "https://github.com/JuanchoSL/"
+                    "email": "Juan.Sanchez@tecnicosweb.com",
+                    "homepage": "https://www.linkedin.com/in/juansanchezlecegui/",
+                    "role": "Developer"
                 }
             ],
             "description": "Little methods collection in order to create http request and responses using the PSR standards from PHP-FIG definitions",
@@ -246,9 +301,9 @@
                 "uri"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.5"
+                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.6"
             },
-            "time": "2025-10-07T15:32:38+00:00"
+            "time": "2025-12-27T00:07:19+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
@@ -356,25 +411,25 @@
         },
         {
             "name": "juanchosl/validators",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/Validators.git",
-                "reference": "53e631d26a46fb36bc3d02e786e1ae718b007cbd"
+                "reference": "c20376666a18ccf36bed42b8b8e33f5d49681aa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/Validators/zipball/53e631d26a46fb36bc3d02e786e1ae718b007cbd",
-                "reference": "53e631d26a46fb36bc3d02e786e1ae718b007cbd",
+                "url": "https://api.github.com/repos/JuanchoSL/Validators/zipball/c20376666a18ccf36bed42b8b8e33f5d49681aa9",
+                "reference": "c20376666a18ccf36bed42b8b8e33f5d49681aa9",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
                 "phpstan/phpstan": "1.12.*",
-                "phpunit/phpunit": "9.6.*"
+                "phpunit/phpunit": "10.5.*"
             },
             "type": "library",
             "autoload": {
@@ -398,12 +453,18 @@
             "homepage": "https://github.com/JuanchoSL/Validators",
             "keywords": [
                 "debug",
-                "log"
+                "iterables",
+                "log",
+                "numbers",
+                "string",
+                "validate",
+                "validation",
+                "validator"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/Validators/tree/1.0.7"
+                "source": "https://github.com/JuanchoSL/Validators/tree/1.0.8"
             },
-            "time": "2025-11-29T15:57:29+00:00"
+            "time": "2025-12-26T23:50:29+00:00"
         },
         {
             "name": "psr/container",
@@ -785,30 +846,29 @@
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0"
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
-                "reference": "c6222283fa3f4ac679f8b9ced9a4e23f163e80d0",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/23da848e1a2308728fe5fdddabf4be17ff9720c7",
+                "reference": "23da848e1a2308728fe5fdddabf4be17ff9720c7",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^11",
+                "doctrine/coding-standard": "^14",
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpbench/phpbench": "^1.2",
-                "phpstan/phpstan": "^1.9.4",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5.27",
-                "vimeo/psalm": "^5.4"
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^10.5.58"
             },
             "type": "library",
             "autoload": {
@@ -835,7 +895,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.0"
+                "source": "https://github.com/doctrine/instantiator/tree/2.1.0"
             },
             "funding": [
                 {
@@ -851,7 +911,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-30T00:23:10+00:00"
+            "time": "2026-01-05T06:47:08+00:00"
         },
         {
             "name": "myclabs/deep-copy",
