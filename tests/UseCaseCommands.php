@@ -18,6 +18,8 @@ class UseCaseCommands extends UseCases
         $this->addArgument('required_single', InputArgument::REQUIRED, InputOption::SINGLE);
         $this->addArgument('required_multi', InputArgument::REQUIRED, InputOption::MULTI);
         $this->addArgument('optional_void', InputArgument::OPTIONAL, InputOption::VOID);
+        $this->addArgument('optional_single_int', InputArgument::OPTIONAL, InputOption::SINGLE_INT);
+        $this->addArgument('optional_multi_int', InputArgument::OPTIONAL, InputOption::MULTI_INT);
     }
 
     public function execute(ServerRequestInterface $input, ResponseInterface $response): ResponseInterface

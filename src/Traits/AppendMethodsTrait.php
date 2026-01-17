@@ -42,6 +42,10 @@ trait AppendMethodsTrait
     {
         return $this->add($alias, $command, OptionsEnum::DELETE);
     }
+    public function connect(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
+    {
+        return $this->add($alias, $command, OptionsEnum::CONNECT);
+    }
     public function crud(string $alias, UseCaseInterface|callable|string|array $command): MiddlewareableInterface
     {
         $app = $this;

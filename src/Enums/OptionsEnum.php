@@ -13,4 +13,5 @@ enum OptionsEnum: string
     case DELETE = 'DELETE';
     case OPTIONS = 'OPTIONS';
     case TRACE = 'TRACE';
+    case CONNECT = 'CONNECT';
 }

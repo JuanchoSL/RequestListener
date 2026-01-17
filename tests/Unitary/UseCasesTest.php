@@ -4,6 +4,7 @@ namespace JuanchoSL\RequestListener\Tests\Unitary;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Fig\Http\Message\StatusCodeInterface;
+use JuanchoSL\Exceptions\PreconditionFailedException;
 use JuanchoSL\Exceptions\PreconditionRequiredException;
 use JuanchoSL\HttpData\Factories\RequestFactory;
 use JuanchoSL\HttpData\Factories\ResponseFactory;
@@ -72,6 +73,32 @@ class UseCasesTest extends TestCase
         $case = new UseCaseCommands;
         $result = $case->handle($request);
 
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c'],
+            "optional_single_int" => 'hello'
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterMultiOneFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c'],
+            "optional_multi_int" => ['hello']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $result = $case->handle($request);
         $this->assertInstanceOf(ResponseInterface::class, $result);
     }
 }
