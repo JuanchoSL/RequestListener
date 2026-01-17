@@ -6,6 +6,7 @@ namespace JuanchoSL\RequestListener;
 
 use JuanchoSL\DataTransfer\Factories\DataTransferFactory;
 use JuanchoSL\DataTransfer\Repositories\ArrayDataTransfer;
+use JuanchoSL\Exceptions\PreconditionFailedException;
 use JuanchoSL\Exceptions\PreconditionRequiredException;
 use JuanchoSL\HttpData\Factories\ResponseFactory;
 use JuanchoSL\RequestListener\Commands\HelpCommand;
@@ -53,8 +54,16 @@ abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
         foreach ($this->arguments as $name => $argument) {
             if ($argument['argument'] == InputArgument::REQUIRED && !$vars->has($name)) {
                 $exception = new PreconditionRequiredException("The argument '{$name}' is missing");
-            } elseif ($argument['option'] == InputOption::SINGLE && $vars->has($name) && is_iterable($vars->get($name))) {
-                $exception = new PreconditionRequiredException("The argument '{$name}' is a single parameter");
+            } elseif (in_array($argument['option'], [InputOption::SINGLE, InputOption::SINGLE_INT]) && $vars->has($name) && is_iterable($vars->get($name))) {
+                $exception = new PreconditionFailedException("The argument '{$name}' needs to be a single parameter");
+            } elseif (
+                $vars->has($name) && (
+                    ($argument['option'] == InputOption::SINGLE_INT && empty(filter_var($vars->get($name), FILTER_VALIDATE_INT)))
+                    ||
+                    ($argument['option'] == InputOption::MULTI_INT && empty(array_filter(filter_var_array(json_decode(json_encode($vars->get($name)), true), FILTER_VALIDATE_INT | FILTER_FLAG_EMPTY_STRING_NULL))))
+                )
+            ) {
+                $exception = new PreconditionFailedException("The argument '{$name}' needs to have an integer as value");
             }
             if (isset($exception)) {
                 $this->log($exception, 'error', [
@@ -103,7 +112,10 @@ abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
         if (array_key_exists('help', $input->getQueryParams())) {
             $response = (new HelpCommand())->__invoke($input->withAttribute('arguments', $this->arguments), $response);
         } else {
-            $this->validate(new InputImmutable(DataTransferFactory::byTrasversable($input->getAttributes())));
+            if (!empty($input->getAttributes()) && !empty($this->arguments)) {
+                $this->validate(new InputImmutable(DataTransferFactory::byTrasversable($input->getAttributes())));
+            }
+            $GLOBALS['request'] = $input;
             $response = (is_null($method)) ? $this($input, $response) : $this->$method($input, $response);
         }
 

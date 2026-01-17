@@ -9,6 +9,14 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class DebugXhprofMiddleware implements MiddlewareInterface
 {
+
+    protected string $profiles_directory = '';
+
+    public function __construct(string $profiles_directory)
+    {
+        $this->profiles_directory = $profiles_directory;
+    }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         defined('DIR_ROOT') or define('DIR_ROOT', realpath(dirname($_SERVER['DOCUMENT_ROOT'], 1)));
