@@ -97,7 +97,7 @@ abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
     public function run(ServerRequestInterface $input, ResponseInterface $response, ?string $method = null): ResponseInterface
     {
         if (!empty($params = $input->getQueryParams()) && is_iterable($params)) {
-            $params = new ArrayDataTransfer($params);
+            //$params = new ArrayDataTransfer($params);
             foreach ($params as $key => $value) {
                 $input = $input->withAttribute($key, $value);
             }
@@ -113,7 +113,8 @@ abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
             $response = (new HelpCommand())->__invoke($input->withAttribute('arguments', $this->arguments), $response);
         } else {
             if (!empty($input->getAttributes()) && !empty($this->arguments)) {
-                $this->validate(new InputImmutable(DataTransferFactory::byTrasversable($input->getAttributes())));
+                $this->validate(new InputImmutable($input->getAttributes()));
+                //$this->validate(new InputImmutable(DataTransferFactory::byTrasversable($input->getAttributes())));
             }
             $GLOBALS['request'] = $input;
             $response = (is_null($method)) ? $this($input, $response) : $this->$method($input, $response);

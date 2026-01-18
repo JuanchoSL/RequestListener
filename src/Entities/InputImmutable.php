@@ -9,29 +9,30 @@ use Psr\Container\ContainerInterface;
 class InputImmutable implements ContainerInterface, \JsonSerializable
 {
 
-    protected DataTransferInterface $arguments;
+    protected array $arguments = [];
 
-    public function __construct(DataTransferInterface $data)
+    public function __construct(array $data)
     {
         $this->arguments = $data;
     }
 
     public function get($name): mixed
     {
-        if ($this->arguments->has($name)) {
-            return $this->arguments->get($name);
+        if (array_key_exists($name, $this->arguments)) {
+            return $this->arguments[$name];
         }
         throw new NotFoundException("The element {$name} does not exists into Container");
     }
 
     public function has($name): bool
     {
+        return (array_key_exists($name, $this->arguments));
         return $this->arguments->has($name);
     }
 
-    
+
     public function jsonSerialize(): array
     {
-        return $this->arguments->jsonSerialize();
+        return $this->arguments;
     }
 }
