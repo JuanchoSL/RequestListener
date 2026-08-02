@@ -2,6 +2,7 @@
 
 namespace JuanchoSL\RequestListener\Middlewares;
 
+use Fig\Http\Message\StatusCodeInterface;
 use JuanchoSL\HttpData\Factories\ResponseFactory;
 use JuanchoSL\HttpData\Factories\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -24,20 +25,20 @@ class CacheMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        //        $now = gmdate("D, d M Y H:i:s", time());
+        //$now = gmdate("D, d M Y H:i:s", time());
 
         if (
-                $request->hasHeader('cache-control') && str_starts_with($request->getHeaderLine('cache-control'), 'no-cache') ||
-                $request->hasHeader('pragma') && str_starts_with($request->getHeaderLine('pragma'), 'no-cache')
+            $request->hasHeader('cache-control') && str_starts_with($request->getHeaderLine('cache-control'), 'no-cache') ||
+            $request->hasHeader('pragma') && str_starts_with($request->getHeaderLine('pragma'), 'no-cache')
         ) {
             return $handler->handle($request)
-                            ->withAddedHeader("Expires", gmdate("D, d M Y H:i:s", 1) . " GMT")
-                            ->withAddedHeader("Last-Modified", gmdate("D, d M Y H:i:s", time()) . " GMT")
-                            ->withAddedHeader("Cache-Control", ["no-store", "no-cache", "must-revalidate"])
-                            ->withAddedHeader("Pragma", "no-cache")
+                ->withAddedHeader("Expires", gmdate("D, d M Y H:i:s", 1) . " GMT")
+                ->withAddedHeader("Last-Modified", gmdate("D, d M Y H:i:s", time()) . " GMT")
+                ->withAddedHeader("Cache-Control", ["no-store", "no-cache", "must-revalidate"])
+                ->withAddedHeader("Pragma", "no-cache")
             ;
         } else {
-
+            $cache_control = ($request->hasHeader('Authorization')) ? "private" : 'public';
             $cache_key = md5((string) $request->getUri()) . '-' . $request->getUri()->getHost() . '.' . pathinfo($request->getRequestTarget(), PATHINFO_EXTENSION) ?? 'cache';
             if (!is_null($this->cache)) {
                 $obj = $this->cache->get($cache_key);
@@ -46,42 +47,47 @@ class CacheMiddleware implements MiddlewareInterface
             $etag = md5($cache_key . $cache_last);
 
             if (!empty($obj)) {
-
+                $age = ($cache_last + $this->ttl) - time();
                 if (
-                        ($request->hasHeader('If-modified-since') && $cache_last <= strtotime($request->getHeaderLine('if-modified-since'))) ||
-                        ($request->hasHeader('If-none-match') && $etag == trim($request->getHeaderLine('If-none-match'), '"'))
+                    ($request->hasHeader('If-modified-since') && $cache_last <= strtotime($request->getHeaderLine('if-modified-since'))) ||
+                    ($request->hasHeader('If-none-match') && $etag == trim($request->getHeaderLine('If-none-match'), '"'))
                 ) {
-                    return (new ResponseFactory)->createResponse(\Fig\Http\Message\StatusCodeInterface::STATUS_NOT_MODIFIED);
+                    return (new ResponseFactory)
+                        ->createResponse(StatusCodeInterface::STATUS_NOT_MODIFIED)
+                        ->withHeader("Pragma", ["cache", "must-revalidate"])
+                        ->withHeader("Expires", gmdate("D, d M Y H:i:s", $cache_last + $this->ttl) . " GMT")
+                        ->withHeader("Last-Modified", gmdate("D, d M Y H:i:s", $cache_last) . " GMT")
+                        ->withAddedHeader("Cache-Control", ["max-age={$age}", $cache_control, "must-revalidate", "min-fresh=" . ceil($age / 2)])
+                        ->withHeader("User-Cache-Control", "max-age={$age}")
+                    ;
                 }
 
                 $response = (new ResponseFactory)->createResponse()->withHeader('content-type', $obj['mime_type']);
                 $data = $obj['data'];
-                $age = ($cache_last + $this->ttl) - time();
             } else {
                 $response = $handler->handle($request);
                 $data = (string) $response->getBody();
                 if (!empty($this->cache)) {
                     $this->cache->set(
-                            $cache_key,
-                            [
-                                'mime_type' => $response->getHeaderLine('content-type'),
-                                'cache_last' => $cache_last,
-                                'data' => $data
-                            ],
-                            $this->ttl
+                        $cache_key,
+                        [
+                            'mime_type' => $response->getHeaderLine('content-type'),
+                            'cache_last' => $cache_last,
+                            'data' => $data
+                        ],
+                        $this->ttl
                     );
                 }
                 $age = $this->ttl;
             }
-            $cache_control = ($request->hasHeader('Authorization')) ? "private" : 'public';
             return $response
-                            ->withBody((new StreamFactory)->createStream($data))
-                            ->withAddedHeader("Expires", gmdate("D, d M Y H:i:s", $cache_last + $this->ttl) . " GMT")
-                            ->withAddedHeader("Last-Modified", gmdate("D, d M Y H:i:s", $cache_last) . " GMT")
-                            ->withAddedHeader("Cache-Control", ["max-age={$age}", $cache_control, "must-revalidate", "min-fresh=" . ceil($age / 2)])
-                            ->withAddedHeader("User-Cache-Control", "max-age={$age}")
-                            ->withAddedHeader("Pragma", ["cache", "must-revalidate"])
-                            ->withAddedHeader("ETag", '"' . $etag . '"')
+                ->withBody((new StreamFactory)->createStream($data))
+                ->withAddedHeader("Expires", gmdate("D, d M Y H:i:s", $cache_last + $this->ttl) . " GMT")
+                ->withAddedHeader("Last-Modified", gmdate("D, d M Y H:i:s", $cache_last) . " GMT")
+                ->withAddedHeader("Cache-Control", ["max-age={$age}", $cache_control, "must-revalidate", "min-fresh=" . ceil($age / 2)])
+                ->withAddedHeader("User-Cache-Control", "max-age={$age}")
+                ->withAddedHeader("Pragma", ["cache", "must-revalidate"])
+                ->withAddedHeader("ETag", '"' . $etag . '"')
             ;
         }
     }
