@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2df076bd3bb14f46024539542ac7d5ae",
+    "content-hash": "76d1a1f84760b5269cfa5a6465d74aff",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -63,26 +63,101 @@
             "time": "2020-11-24T22:02:12+00:00"
         },
         {
-            "name": "juanchosl/datamanipulation",
+            "name": "juanchosl/compression",
             "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/JuanchoSL/DataManipulation.git",
-                "reference": "3315aafff87e126968eae38f4c2e7f4d7a823bd4"
+                "url": "https://github.com/JuanchoSL/Compression.git",
+                "reference": "d15cd66807db5589293eaaf8239d7f88fdacec68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/DataManipulation/zipball/3315aafff87e126968eae38f4c2e7f4d7a823bd4",
-                "reference": "3315aafff87e126968eae38f4c2e7f4d7a823bd4",
+                "url": "https://api.github.com/repos/JuanchoSL/Compression/zipball/d15cd66807db5589293eaaf8239d7f88fdacec68",
+                "reference": "d15cd66807db5589293eaaf8239d7f88fdacec68",
+                "shasum": ""
+            },
+            "require": {
+                "juanchosl/exceptions": "1.0.*",
+                "juanchosl/validators": "1.0.*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "doctrine/instantiator": "^1.5",
+                "phpstan/phpstan": "1.12.*",
+                "phpunit/phpunit": "9.6.*"
+            },
+            "suggest": {
+                "kjdev/brotli": "*",
+                "kjdev/lz4": "*",
+                "kjdev/snappy": "*",
+                "kjdev/zstd": "*",
+                "mateuszanella/php-ext-xz": "*",
+                "pecl/lzf": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JuanchoSL\\Compression\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Juan Sánchez Lecegui",
+                    "email": "Juan.Sanchez@tecnicosweb.com",
+                    "homepage": "https://www.linkedin.com/in/juansanchezlecegui/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Grouped tools in order to abstract compression tasks compatible with few formats and encodings.",
+            "homepage": "https://github.com/JuanchoSL/Compression",
+            "keywords": [
+                "br",
+                "brotli",
+                "bz2",
+                "compression",
+                "deflate",
+                "gzip",
+                "lz4",
+                "lzf",
+                "raw",
+                "snappy",
+                "xz",
+                "zlib",
+                "zstd"
+            ],
+            "support": {
+                "source": "https://github.com/JuanchoSL/Compression/tree/1.0.1"
+            },
+            "time": "2026-08-28T23:48:06+00:00"
+        },
+        {
+            "name": "juanchosl/datamanipulation",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JuanchoSL/DataManipulation.git",
+                "reference": "1d9ab593bbb4bb616e1029f79696273cbc9ab53c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JuanchoSL/DataManipulation/zipball/1d9ab593bbb4bb616e1029f79696273cbc9ab53c",
+                "reference": "1d9ab593bbb4bb616e1029f79696273cbc9ab53c",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.0"
+                "juanchosl/validators": "1.0.*",
+                "php": "^8.0",
+                "psr/log": "3.0.*"
             },
             "require-dev": {
+                "juanchosl/logger": "1.1.*",
                 "phpstan/phpstan": "1.12.*",
-                "phpunit/phpunit": "9.6.*"
+                "phpunit/phpunit": "9.6.*|10.5.*"
             },
             "type": "library",
             "autoload": {
@@ -112,32 +187,35 @@
                 "variables"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/DataManipulation/tree/1.0.1"
+                "source": "https://github.com/JuanchoSL/DataManipulation/tree/1.0.3"
             },
-            "time": "2026-01-09T14:21:32+00:00"
+            "time": "2026-08-12T09:21:02+00:00"
         },
         {
             "name": "juanchosl/datatransfer",
-            "version": "1.0.13",
+            "version": "1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/DataTransfer.git",
-                "reference": "eb67c798532b2bd1d895740f5861be7e8235a2e0"
+                "reference": "556f472381e2f302a095c20435c48779851097e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/eb67c798532b2bd1d895740f5861be7e8235a2e0",
-                "reference": "eb67c798532b2bd1d895740f5861be7e8235a2e0",
+                "url": "https://api.github.com/repos/JuanchoSL/DataTransfer/zipball/556f472381e2f302a095c20435c48779851097e6",
+                "reference": "556f472381e2f302a095c20435c48779851097e6",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.2",
+                "ext-fileinfo": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
+                "ext-xml": "*",
+                "ext-zip": "*",
                 "juanchosl/exceptions": "1.0.*",
                 "juanchosl/httpheaders": "1.0.*",
                 "juanchosl/validators": "1.0.*",
-                "php": "^8.1",
+                "php": "^8.0",
                 "psr/http-server-handler": "1.0.*"
             },
             "require-dev": {
@@ -146,7 +224,9 @@
             },
             "suggest": {
                 "ext-xlswriter": "*",
-                "ext-yaml": "*"
+                "ext-xml": "*",
+                "ext-yaml": "*",
+                "ext-zip": "*"
             },
             "type": "library",
             "autoload": {
@@ -169,16 +249,20 @@
             "description": "A small, lightweight utility to read values and properties from distinct sources using the same methodology",
             "homepage": "https://github.com/JuanchoSL/DataTransfer",
             "keywords": [
+                "Data Interchange Format",
                 "array",
                 "csv",
                 "data converter",
+                "data sheets",
                 "data transfer objects",
+                "dif",
                 "dto",
                 "entity",
                 "file contents",
                 "ini",
                 "json",
                 "object",
+                "ods",
                 "simplexmlelement",
                 "tab separated values",
                 "tsv",
@@ -188,9 +272,9 @@
                 "yaml"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.13"
+                "source": "https://github.com/JuanchoSL/DataTransfer/tree/1.0.17"
             },
-            "time": "2025-11-28T21:12:15+00:00"
+            "time": "2026-08-30T19:24:19+00:00"
         },
         {
             "name": "juanchosl/exceptions",
@@ -243,24 +327,26 @@
         },
         {
             "name": "juanchosl/httpdata",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "68fd8423b800cf4e628a83b336b492527e4fb504"
+                "reference": "e83f9377edad8e00df3d1759f35813c495b87a99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/68fd8423b800cf4e628a83b336b492527e4fb504",
-                "reference": "68fd8423b800cf4e628a83b336b492527e4fb504",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/e83f9377edad8e00df3d1759f35813c495b87a99",
+                "reference": "e83f9377edad8e00df3d1759f35813c495b87a99",
                 "shasum": ""
             },
             "require": {
+                "ext-fileinfo": "*",
                 "ext-mbstring": "*",
                 "fig/http-message-util": "1.1.*",
-                "juanchosl/datamanipulation": "^1.0",
+                "juanchosl/datamanipulation": "1.0.*",
                 "juanchosl/exceptions": "1.0.*",
                 "juanchosl/httpheaders": "1.0.*",
+                "juanchosl/validators": "1.0.*",
                 "php": "^8.0",
                 "psr/http-client": "1.0.*",
                 "psr/http-factory": "1.1.*",
@@ -268,7 +354,7 @@
             },
             "require-dev": {
                 "phpstan/phpstan": "1.12.*",
-                "phpunit/phpunit": "10.5.*"
+                "phpunit/phpunit": "9.6.* | 10.5.*"
             },
             "type": "library",
             "autoload": {
@@ -302,27 +388,27 @@
                 "uri"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.7"
+                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0.8"
             },
-            "time": "2026-01-09T14:26:43+00:00"
+            "time": "2026-08-13T08:30:33+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpHeaders.git",
-                "reference": "e599267c674a6295617ebf6c400fe69972a6343a"
+                "reference": "c12f1016c78995f839495a36ae463a077bc86cad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpHeaders/zipball/e599267c674a6295617ebf6c400fe69972a6343a",
-                "reference": "e599267c674a6295617ebf6c400fe69972a6343a",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpHeaders/zipball/c12f1016c78995f839495a36ae463a077bc86cad",
+                "reference": "c12f1016c78995f839495a36ae463a077bc86cad",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^7.1 || ^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
                 "phpstan/phpstan": "1.10.*",
@@ -341,96 +427,51 @@
             "authors": [
                 {
                     "name": "Juan Sánchez Lecegui",
-                    "email": "JuanchoSL@hotmail.com",
-                    "homepage": "https://github.com/JuanchoSL/"
+                    "email": "Juan.Sanchez@tecnicosweb.com",
+                    "homepage": "https://www.linkedin.com/in/juansanchezlecegui/",
+                    "role": "Developer"
                 }
             ],
-            "description": "Little methods collection in order to create http headers",
+            "description": "Little methods and constants collection in order to create http headers and reuse standard codes and messages",
             "homepage": "https://github.com/JuanchoSL/HttpHeaders",
             "keywords": [
                 "content types",
                 "file extensions",
+                "ftp",
                 "headers",
                 "http",
                 "mime types"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpHeaders/tree/1.0.1"
+                "source": "https://github.com/JuanchoSL/HttpHeaders/tree/1.0.2"
             },
-            "time": "2025-06-06T23:49:10+00:00"
-        },
-        {
-            "name": "juanchosl/logger",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/JuanchoSL/Logger.git",
-                "reference": "0c1ef10dfb9d617fab09534e8e4997d247fb262e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/Logger/zipball/0c1ef10dfb9d617fab09534e8e4997d247fb262e",
-                "reference": "0c1ef10dfb9d617fab09534e8e4997d247fb262e",
-                "shasum": ""
-            },
-            "require": {
-                "ext-fileinfo": "*",
-                "ext-mbstring": "*",
-                "php": "^8.1",
-                "psr/log": "3.0.*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "9.6.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "JuanchoSL\\Logger\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Juan Sánchez Lecegui",
-                    "email": "JuanchoSL@hotmail.com",
-                    "homepage": "https://github.com/JuanchoSL/"
-                }
-            ],
-            "description": "Little logger using the PSR interfaces",
-            "homepage": "https://github.com/JuanchoSL/Logger",
-            "keywords": [
-                "debug",
-                "log"
-            ],
-            "support": {
-                "source": "https://github.com/JuanchoSL/Logger/tree/1.1.2"
-            },
-            "time": "2025-07-29T13:21:09+00:00"
+            "time": "2026-08-04T04:25:50+00:00"
         },
         {
             "name": "juanchosl/validators",
-            "version": "1.0.8",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/Validators.git",
-                "reference": "c20376666a18ccf36bed42b8b8e33f5d49681aa9"
+                "reference": "c5f14af1c675c3aa19b0e325b1bc1269e1259b41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/Validators/zipball/c20376666a18ccf36bed42b8b8e33f5d49681aa9",
-                "reference": "c20376666a18ccf36bed42b8b8e33f5d49681aa9",
+                "url": "https://api.github.com/repos/JuanchoSL/Validators/zipball/c5f14af1c675c3aa19b0e325b1bc1269e1259b41",
+                "reference": "c5f14af1c675c3aa19b0e325b1bc1269e1259b41",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.1"
+                "juanchosl/datamanipulation": "1.0.*",
+                "juanchosl/exceptions": "1.0.*",
+                "php": "^8.0",
+                "psr/log": "3.0.*"
             },
             "require-dev": {
+                "juanchosl/logger": "1.1.*",
                 "phpstan/phpstan": "1.12.*",
-                "phpunit/phpunit": "10.5.*"
+                "phpunit/phpunit": "9.6.* | 10.5.*"
             },
             "type": "library",
             "autoload": {
@@ -463,9 +504,9 @@
                 "validator"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/Validators/tree/1.0.8"
+                "source": "https://github.com/JuanchoSL/Validators/tree/1.0.11"
             },
-            "time": "2025-12-26T23:50:29+00:00"
+            "time": "2026-08-22T10:14:59+00:00"
         },
         {
             "name": "psr/container",
@@ -915,21 +956,75 @@
             "time": "2026-01-05T06:47:08+00:00"
         },
         {
-            "name": "myclabs/deep-copy",
-            "version": "1.13.4",
+            "name": "juanchosl/logger",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a"
+                "url": "https://github.com/JuanchoSL/Logger.git",
+                "reference": "57776650543402e130a901962713dc80c663436b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/07d290f0c47959fd5eed98c95ee5602db07e0b6a",
-                "reference": "07d290f0c47959fd5eed98c95ee5602db07e0b6a",
+                "url": "https://api.github.com/repos/JuanchoSL/Logger/zipball/57776650543402e130a901962713dc80c663436b",
+                "reference": "57776650543402e130a901962713dc80c663436b",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1 || ^8.0"
+                "ext-fileinfo": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": "^8.0",
+                "psr/http-message": "^2.0",
+                "psr/log": "3.0.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "9.6.* || 10.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JuanchoSL\\Logger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Juan Sánchez Lecegui",
+                    "email": "Juan.Sanchez@tecnicosweb.com",
+                    "homepage": "https://www.linkedin.com/in/juansanchezlecegui/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Little logger using the PSR interfaces",
+            "homepage": "https://github.com/JuanchoSL/Logger",
+            "keywords": [
+                "debug",
+                "log"
+            ],
+            "support": {
+                "source": "https://github.com/JuanchoSL/Logger/tree/1.1.4"
+            },
+            "time": "2026-08-13T11:15:28+00:00"
+        },
+        {
+            "name": "myclabs/deep-copy",
+            "version": "1.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/myclabs/DeepCopy.git",
+                "reference": "8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae",
+                "reference": "8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
             },
             "conflict": {
                 "doctrine/collections": "<1.6.8",
@@ -964,32 +1059,31 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.4"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.14.0"
             },
             "funding": [
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/myclabs/deep-copy",
-                    "type": "tidelift"
+                    "url": "https://github.com/mnapoli",
+                    "type": "github"
                 }
             ],
-            "time": "2025-08-01T08:46:24+00:00"
+            "time": "2026-08-11T10:17:44+00:00"
         },
         {
             "name": "nikic/php-parser",
-            "version": "v5.7.0",
+            "version": "v5.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82"
+                "reference": "044a6a392ff8ad0d61f14370a5fbbd0a0107152f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/dca41cd15c2ac9d055ad70dbfd011130757d1f82",
-                "reference": "dca41cd15c2ac9d055ad70dbfd011130757d1f82",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/044a6a392ff8ad0d61f14370a5fbbd0a0107152f",
+                "reference": "044a6a392ff8ad0d61f14370a5fbbd0a0107152f",
                 "shasum": ""
             },
             "require": {
-                "ext-ctype": "*",
                 "ext-json": "*",
                 "ext-tokenizer": "*",
                 "php": ">=7.4"
@@ -1028,9 +1122,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v5.8.0"
             },
-            "time": "2025-12-06T11:56:16+00:00"
+            "time": "2026-07-04T14:30:18+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -1529,25 +1623,25 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.31",
+            "version": "9.6.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "945d0b7f346a084ce5549e95289962972c4272e5"
+                "reference": "abab27ed286d3e1246fbbfe6b56bfd732d945ec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/945d0b7f346a084ce5549e95289962972c4272e5",
-                "reference": "945d0b7f346a084ce5549e95289962972c4272e5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/abab27ed286d3e1246fbbfe6b56bfd732d945ec9",
+                "reference": "abab27ed286d3e1246fbbfe6b56bfd732d945ec9",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.5.0 || ^2",
                 "ext-dom": "*",
+                "ext-filter": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
-                "ext-xml": "*",
                 "ext-xmlwriter": "*",
                 "myclabs/deep-copy": "^1.13.4",
                 "phar-io/manifest": "^2.0.4",
@@ -1560,10 +1654,10 @@
                 "phpunit/php-timer": "^5.0.3",
                 "sebastian/cli-parser": "^1.0.2",
                 "sebastian/code-unit": "^1.0.8",
-                "sebastian/comparator": "^4.0.9",
+                "sebastian/comparator": "^4.0.10",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
-                "sebastian/exporter": "^4.0.8",
+                "sebastian/exporter": "^4.0.9",
                 "sebastian/global-state": "^5.0.8",
                 "sebastian/object-enumerator": "^4.0.4",
                 "sebastian/resource-operations": "^3.0.4",
@@ -1612,31 +1706,15 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.31"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.36"
             },
             "funding": [
                 {
-                    "url": "https://phpunit.de/sponsors.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                },
-                {
-                    "url": "https://liberapay.com/sebastianbergmann",
-                    "type": "liberapay"
-                },
-                {
-                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
-                    "type": "thanks_dev"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpunit/phpunit",
-                    "type": "tidelift"
+                    "url": "https://phpunit.de/sponsoring.html",
+                    "type": "other"
                 }
             ],
-            "time": "2025-12-06T07:45:52+00:00"
+            "time": "2026-08-11T06:25:15+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1807,16 +1885,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "4.0.9",
+            "version": "4.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5"
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
-                "reference": "67a2df3a62639eab2cc5906065e9805d4fd5dfc5",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/e4df00b9b3571187db2831ae9aada2c6efbd715d",
+                "reference": "e4df00b9b3571187db2831ae9aada2c6efbd715d",
                 "shasum": ""
             },
             "require": {
@@ -1869,7 +1947,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.9"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/4.0.10"
             },
             "funding": [
                 {
@@ -1889,7 +1967,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:51:50+00:00"
+            "time": "2026-01-24T09:22:56+00:00"
         },
         {
             "name": "sebastian/complexity",
@@ -2079,16 +2157,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "4.0.8",
+            "version": "4.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c"
+                "reference": "4352c1a3df741a7ba9e61af6fed51d1fee41cbf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/14c6ba52f95a36c3d27c835d65efc7123c446e8c",
-                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/4352c1a3df741a7ba9e61af6fed51d1fee41cbf7",
+                "reference": "4352c1a3df741a7ba9e61af6fed51d1fee41cbf7",
                 "shasum": ""
             },
             "require": {
@@ -2144,7 +2222,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.8"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.9"
             },
             "funding": [
                 {
@@ -2164,7 +2242,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-24T06:03:27+00:00"
+            "time": "2026-08-11T04:55:59+00:00"
         },
         {
             "name": "sebastian/global-state",
@@ -2413,16 +2491,16 @@
         },
         {
             "name": "sebastian/recursion-context",
-            "version": "4.0.6",
+            "version": "4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/recursion-context.git",
-                "reference": "539c6691e0623af6dc6f9c20384c120f963465a0"
+                "reference": "c85be6922b7fd365942b986b9a50397d65407611"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/539c6691e0623af6dc6f9c20384c120f963465a0",
-                "reference": "539c6691e0623af6dc6f9c20384c120f963465a0",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/c85be6922b7fd365942b986b9a50397d65407611",
+                "reference": "c85be6922b7fd365942b986b9a50397d65407611",
                 "shasum": ""
             },
             "require": {
@@ -2464,7 +2542,7 @@
             "homepage": "https://github.com/sebastianbergmann/recursion-context",
             "support": {
                 "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
-                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.6"
+                "source": "https://github.com/sebastianbergmann/recursion-context/tree/4.0.7"
             },
             "funding": [
                 {
@@ -2484,7 +2562,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-08-10T06:57:39+00:00"
+            "time": "2026-08-11T05:25:24+00:00"
         },
         {
             "name": "sebastian/resource-operations",
