@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "848ed764de3801c2ddaad83286b4e084",
+    "content-hash": "e7b38bc88f2c911bf45d2361cc110c9f",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -327,16 +327,16 @@
         },
         {
             "name": "juanchosl/httpdata",
-            "version": "dev-develop",
+            "version": "1.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JuanchoSL/HttpData.git",
-                "reference": "0598e425e2378a9721733115ebce4059619924c6"
+                "reference": "664a650788e003e57783f2859068c7dee71eee16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/0598e425e2378a9721733115ebce4059619924c6",
-                "reference": "0598e425e2378a9721733115ebce4059619924c6",
+                "url": "https://api.github.com/repos/JuanchoSL/HttpData/zipball/664a650788e003e57783f2859068c7dee71eee16",
+                "reference": "664a650788e003e57783f2859068c7dee71eee16",
                 "shasum": ""
             },
             "require": {
@@ -356,6 +356,7 @@
                 "phpstan/phpstan": "1.12.*",
                 "phpunit/phpunit": "9.6.* | 10.5.*"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -388,9 +389,9 @@
                 "uri"
             ],
             "support": {
-                "source": "https://github.com/JuanchoSL/HttpData/tree/develop"
+                "source": "https://github.com/JuanchoSL/HttpData/tree/1.0"
             },
-            "time": "2026-09-02T21:27:32+00:00"
+            "time": "2026-09-02T21:30:25+00:00"
         },
         {
             "name": "juanchosl/httpheaders",
