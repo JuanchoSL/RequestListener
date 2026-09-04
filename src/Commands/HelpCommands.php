@@ -4,7 +4,6 @@ namespace JuanchoSL\RequestListener\Commands;
 
 use JuanchoSL\DataTransfer\Factories\DataConverterFactory;
 use JuanchoSL\DataTransfer\Factories\DataTransferFactory;
-use JuanchoSL\DataTransfer\Repositories\ArrayDataTransfer;
 use JuanchoSL\HttpData\Factories\StreamFactory;
 use JuanchoSL\HttpHeaders\Constants\Types\MimeTypes;
 use JuanchoSL\RequestListener\Enums\OptionsEnum;

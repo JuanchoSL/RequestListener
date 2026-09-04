@@ -51,7 +51,7 @@ class HelpCommand extends UseCases
 
     protected function toText($request, $target)
     {
-        $body[] = sprintf("Available arguments for command %s:", $target);
+        $body[] = sprintf("Available arguments for command '%s'", $target);
         foreach ($request as $name => $values) {
             $body[] = sprintf("\t- %s: %s, %s", $values['name'], $values['argument'], $values['option']);
         }
@@ -64,6 +64,6 @@ class HelpCommand extends UseCases
         foreach ($request as $name => $values) {
             $body .= sprintf("<li>%s: %s, %s</li>", $values['name'], $values['argument'], $values['option']);
         }
-        return "<p>" . sprintf("Available arguments for command %s:", $target) . "</p>" . "<ul>" . $body . "</ul>";
+        return "<p>" . sprintf("Available arguments for command '%s'", $target) . "</p>" . "<ul>" . $body . "</ul>";
     }
 }

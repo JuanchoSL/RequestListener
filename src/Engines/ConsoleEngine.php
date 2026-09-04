@@ -2,9 +2,9 @@
 
 namespace JuanchoSL\RequestListener\Engines;
 
+use JuanchoSL\HttpData\Bodies\Parsers\StdInReader;
 use JuanchoSL\HttpData\Factories\RequestFactory;
 use JuanchoSL\HttpData\Factories\ServerRequestFactory;
-use JuanchoSL\HttpData\Factories\StreamFactory;
 use JuanchoSL\RequestListener\Contracts\EnginesInterface;
 use JuanchoSL\RequestListener\Enums\OptionsEnum;
 use Psr\Http\Message\ResponseInterface;
@@ -48,12 +48,12 @@ class ConsoleEngine implements EnginesInterface
         $return = (new RequestFactory)
             ->createRequest(OptionsEnum::GET->value, 'http://' . str_replace("//", '/', gethostname() . "/" . $_SERVER['argv'][1]) . "?" . http_build_query($params));
 
-        defined('STDIN') or define('STDIN', fopen('php://input', 'a+'));
-        $body = (new StreamFactory())->createStreamFromResource(STDIN);
-        if ($body->getSize() > 0) {
+        $stdin = new StdInReader();
+        $body = $stdin->getBodyContent();
+        if (!empty($body) && $body->getSize() > 0) {
             $return = $return->withBody($body)->withMethod(OptionsEnum::POST->value);
-            if (($mimetype = mime_content_type(STDIN)) !== false) {
-                $return = $return->withAddedHeader('content-type', $mimetype);
+            if (!empty($type = $stdin->getBodyType())) {
+                $return = $return->withAddedHeader('content-type', $type);
             }
         }
         $return = (new ServerRequestFactory)->fromRequest($return)->withRequestTarget($_SERVER['argv'][1]);
@@ -63,14 +63,13 @@ class ConsoleEngine implements EnginesInterface
     public function sendMessage(ResponseInterface $response): int
     {
         $limit = 4000;
-        $body = (empty($response->getBody()->getSize())) ? $response->getStatusCode() . " " . $response->getReasonPhrase() : (string) $response->getBody();
-        $body .= PHP_EOL;
+        $body = (empty($response->getBody()->getSize())) ? $response->getStatusCode() . " " . $response->getReasonPhrase() . PHP_EOL : (string) $response->getBody();
         if ($response->getStatusCode() < $limit) {
-            defined('STDOUT') or define('STDOUT', fopen('php://output', 'a+'));
-            fwrite(STDOUT, $body);
+            defined('STDOUT') or define('STDOUT', fopen('php://output', 'wb'));
+            fwrite(STDOUT, (string) $body);
         } else {
-            defined('STDERR') or define('STDERR', fopen('php://stdout', 'a+'));
-            fwrite(STDERR, $body);
+            defined('STDERR') or define('STDERR', fopen('php://stdout', 'wb'));
+            fwrite(STDERR, (string) $body);
         }
         return $response->getStatusCode();
     }

@@ -2,9 +2,11 @@
 
 namespace JuanchoSL\RequestListener\Middlewares;
 
+use Fig\Http\Message\RequestMethodInterface;
 use Fig\Http\Message\StatusCodeInterface;
 use JuanchoSL\HttpData\Factories\ResponseFactory;
 use JuanchoSL\HttpData\Factories\StreamFactory;
+use JuanchoSL\Validators\Types\Strings\StringValidations;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -29,7 +31,8 @@ class CacheMiddleware implements MiddlewareInterface
 
         if (
             $request->hasHeader('cache-control') && str_starts_with($request->getHeaderLine('cache-control'), 'no-cache') ||
-            $request->hasHeader('pragma') && str_starts_with($request->getHeaderLine('pragma'), 'no-cache')
+            $request->hasHeader('pragma') && str_starts_with($request->getHeaderLine('pragma'), 'no-cache') ||
+            (new StringValidations())->isValueEqualsAny(RequestMethodInterface::METHOD_POST, RequestMethodInterface::METHOD_PATCH, RequestMethodInterface::METHOD_PUT)->__invoke($request->getMethod())
         ) {
             return $handler->handle($request)
                 ->withAddedHeader("Expires", gmdate("D, d M Y H:i:s", 1) . " GMT")
@@ -39,7 +42,7 @@ class CacheMiddleware implements MiddlewareInterface
             ;
         } else {
             $cache_control = ($request->hasHeader('Authorization')) ? "private" : 'public';
-            $cache_key = md5((string) $request->getUri()) . '-' . $request->getUri()->getHost() . '.' . pathinfo($request->getRequestTarget(), PATHINFO_EXTENSION) ?? 'cache';
+            $cache_key = md5((string) $request->getUri()) . '_' . $request->getUri()->getHost() . '.' . (empty($ext = pathinfo($request->getRequestTarget(), PATHINFO_EXTENSION)) ? 'cache' : $ext);
             if (!is_null($this->cache)) {
                 $obj = $this->cache->get($cache_key);
             }
