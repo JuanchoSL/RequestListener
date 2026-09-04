@@ -35,9 +35,10 @@
         "juanchosl/datamanipulation": "^1.0",
         "juanchosl/datatransfer": "^1.0",
         "juanchosl/compression": "^1.0",
-        "juanchosl/httpdata": "^1.0"
+        "juanchosl/httpdata": "dev-develop"
     },
     "require-dev": {
+        "doctrine/instantiator": "1.5.*",
         "phpunit/phpunit": "9.6.*",
         "phpstan/phpstan": "1.10.*",
         "juanchosl/logger": "1.1.*"
