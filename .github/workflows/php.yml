@@ -2,42 +2,55 @@ name: PHP Composer and Tests
 
 on:
   push:
-    branches: [ "*" ]
+    branches: ["develop"]
   pull_request:
-    branches: [ "develop" ]
+    branches: ["develop"]
 
 permissions:
   contents: read
 
 jobs:
   build:
-
-    runs-on: ubuntu-24.04
+    name: PHP ${{ matrix.php-versions }} on ${{ matrix.os }} w/ ${{ matrix.dependencies }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions:
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+          - "8.5"
+        os: [ubuntu-latest, windows-latest]
+        dependencies: ["update", "install"]
 
     steps:
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.4'
-        extensions: pcntl
+      - name: Setup PHP
+        uses: shivammathur/setup-php@main
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, pcntl
 
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@main
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v4
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@main
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
 
-    - name: Install dependencies
-      run: composer update --prefer-dist --no-progress
+      - name: Install dependencies
+        run: composer ${{ matrix.dependencies }} --prefer-dist --no-progress --ignore-platform-reqs
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+      # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+      # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    - name: Run test suite
-      run: vendor/bin/phpunit --configuration phpunit.xml tests
+      - name: Run test suite
+        run: composer tests

@@ -59,8 +59,8 @@ The parameter name needs to start with --, then can assign values from:
 - ValidMethodMiddleware: Check if the requested method is available, if a HEAD method is selected, we convert to a GET before check it, and remove the body from response if it is availble
 - ValidMediaTypeMiddleware: Check if any accepted media-type from the request is available
 - CacheMiddleware: Can enable this available middleware providing a PSR-16 SimpleCacheInterface in order to use it
-- OutputCompressionMiddleware: Using this available middleware, can compress or encodig response bodies, accord the _Accept-Encoding_ client header, in **br**(brotli), **zstd**, **deflate** or **gzip**
-- RateLimitMiddleware: In order to count the UNAUTHORIZED responses and block the client using SESSION for N seconds, can indicate the num of failed counts and the banned seconds 
+- OutputCompressionMiddleware: Using this available middleware, can compress or encodig response bodies, according the _Accept-Encoding_ client header, in **br**(brotli), **zstd**, **deflate** or **gzip**
+- RateLimitMiddleware: In order to count the UNAUTHORIZED responses and block the client using SESSION for N seconds, can indicate the num of failed counts and the banned seconds
 
 #### User Defined PRE middlewares
 
@@ -95,7 +95,7 @@ class AuthorizationMiddleware implements MiddlewareInterface
 #### Other available Middlewares
 
 - CacheMiddleware: Use any compatible PSR-16 library in order to check, load and save web caches
-- OutputCompressionMiddleware: Compress http responses using native libraries (deflate and gzip)
+- OutputCompressionMiddleware: Compress http responses using native libraries (deflate, gzip, zstd and brotli)
 - DebugXhprofMiddleware
 
 ### Request handlers
@@ -137,7 +137,24 @@ class ConvertHandler implements RequestHandlerInterface
 
 The Application system, group the routing, methods access, and callables to be executed when the rules has been accomplished. Into the entrypoint, you need to prepare endpoints and his rules to be executed.
 
-When you extend the UseCases provided class, a **configure** method is required, in order to set the valid parameters, performing an autovalidation
+When you extend the UseCases provided class, a **configure** method is required, in order to set the valid parameters, performing an autovalidation.
+Actually we have available the validations in two levels, requiring and type.
+
+The requiring mode can be:
+
+- InputArgument::REQUIRED -> the lib check than the parameter is provided by the user
+- InputArgument::OPTIONAL -> if is provided, knowing it, the lib can check the desired type
+
+The type validations can be for:
+
+- InputOption::VOID = 'void' ->the lib checkif is present, no value needs to be present
+- InputOption::BOOL = 'bool' -> a value as string is accepted, true, "true", 1, "1", "On" for compare as bool true, and false, "false",0,"0","Off" as bool false
+- InputOption::SINGLE = 'single' -> only one value is accepted
+- InputOption::SINGLE_INT = 'single_int' -> only one value is accepted, and needs to be an integer value (or a string with only an integer value)
+- InputOption::SINGLE_NUMBER = 'single_number' -> only one value is accepted, and needs to be a number value (or a string with only a numeric value)
+- InputOption::MULTI = 'multiple' -> N values are accepted
+- InputOption::MULTI_INT = 'multiple_int' -> few values are accepted, and needs to be integers values (or strings with only integers values)
+- InputOption::MULTI_NUMBER = 'multiple_number' -> few values are accepted, and needs to be numeric values (or strings with only numeric values)
 
 The callables can be:
 
@@ -145,7 +162,7 @@ The callables can be:
 - A command, extending the UseCases provided class and implementing an **\_\_invoke** method with the params:
   - ServerRequestInterface
   - ResponseInterface
-- A callable with format `[Class, 'method_to_call']`
+- A callable with format `[ClassName::class, 'method_to_call']`
 
 ```php
 <?php

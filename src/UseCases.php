@@ -54,16 +54,26 @@ abstract class UseCases implements UseCaseInterface, RequestHandlerInterface
         foreach ($this->arguments as $name => $argument) {
             if ($argument['argument'] == InputArgument::REQUIRED && !$vars->has($name)) {
                 $exception = new PreconditionRequiredException("The argument '{$name}' is missing");
-            } elseif (in_array($argument['option'], [InputOption::SINGLE, InputOption::SINGLE_INT]) && $vars->has($name) && is_iterable($vars->get($name))) {
+            } elseif (in_array($argument['option'], [InputOption::BOOL, InputOption::SINGLE, InputOption::SINGLE_INT, InputOption::SINGLE_NUMBER]) && $vars->has($name) && is_iterable($vars->get($name))) {
                 $exception = new PreconditionFailedException("The argument '{$name}' needs to be a single parameter");
-            } elseif (
-                $vars->has($name) && (
+            } elseif (in_array($argument['option'], [InputOption::VOID]) && $vars->has($name) && !empty($vars->get($name))) {
+                $exception = new PreconditionFailedException("The argument '{$name}' needs to be an empty value");
+            } elseif ($vars->has($name)) {
+                if (
                     ($argument['option'] == InputOption::SINGLE_INT && empty(filter_var($vars->get($name), FILTER_VALIDATE_INT)))
                     ||
                     ($argument['option'] == InputOption::MULTI_INT && empty(array_filter(filter_var_array(json_decode(json_encode($vars->get($name)), true), FILTER_VALIDATE_INT | FILTER_FLAG_EMPTY_STRING_NULL))))
-                )
-            ) {
-                $exception = new PreconditionFailedException("The argument '{$name}' needs to have an integer as value");
+                ) {
+                    $exception = new PreconditionFailedException("The argument '{$name}' needs to have an integer as value");
+                } elseif (
+                    ($argument['option'] == InputOption::SINGLE_NUMBER && empty(filter_var($vars->get($name), FILTER_VALIDATE_FLOAT)))
+                    ||
+                    ($argument['option'] == InputOption::MULTI_NUMBER && empty(array_filter(filter_var_array(json_decode(json_encode($vars->get($name)), true), FILTER_VALIDATE_FLOAT | FILTER_FLAG_EMPTY_STRING_NULL))))
+                ) {
+                    $exception = new PreconditionFailedException("The argument '{$name}' needs to have a float as value");
+                } elseif ($argument['option'] == InputOption::BOOL && filter_var($vars->get($name), FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) === null) {
+                    $exception = new PreconditionFailedException("The argument '{$name}' needs to have a boolean, or equivalent, as value, instead {$vars->get($name)}");
+                }
             }
             if (isset($exception)) {
                 $this->log($exception, 'error', [

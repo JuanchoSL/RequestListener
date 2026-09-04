@@ -19,8 +19,6 @@ class DebugXhprofMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        defined('DIR_ROOT') or define('DIR_ROOT', realpath(dirname($_SERVER['DOCUMENT_ROOT'], 1)));
-
         if (function_exists('xhprof_enable') && PHP_SAPI != 'cli') {
             xhprof_enable(XHPROF_FLAGS_MEMORY);
         }
@@ -30,8 +28,8 @@ class DebugXhprofMiddleware implements MiddlewareInterface
         if (function_exists('xhprof_disable') && PHP_SAPI != 'cli') {
             $xhprof_data = xhprof_disable();
 
-            include_once DIR_ROOT . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'profiles' . "/xhprof_lib/utils/xhprof_lib.php";
-            include_once DIR_ROOT . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'profiles' . "/xhprof_lib/utils/xhprof_runs.php";
+            include_once $this->profiles_directory . "/xhprof_lib/utils/xhprof_lib.php";
+            include_once $this->profiles_directory . "/xhprof_lib/utils/xhprof_runs.php";
 
             $xhprof_runs = new \XHProfRuns_Default();
             $run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_testing");

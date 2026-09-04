@@ -10,6 +10,8 @@ use JuanchoSL\HttpData\Factories\RequestFactory;
 use JuanchoSL\HttpData\Factories\ResponseFactory;
 use JuanchoSL\HttpData\Factories\ServerRequestFactory;
 use JuanchoSL\HttpData\Factories\UriFactory;
+use JuanchoSL\RequestListener\Enums\InputArgument;
+use JuanchoSL\RequestListener\Enums\InputOption;
 use JuanchoSL\RequestListener\Tests\UseCaseCommands;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -100,5 +102,172 @@ class UseCasesTest extends TestCase
         $case = new UseCaseCommands;
         $result = $case->handle($request);
         $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+
+    public function testRequestHandlerParameterTypeVoidRequiredFailure()
+    {
+        $this->expectException(PreconditionRequiredException::class);
+        $params = http_build_query([
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('void_required', InputArgument::REQUIRED, InputOption::VOID);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeVoidContentFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "optional_void" => 'single',
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleIntRequiredFailure()
+    {
+        $this->expectException(PreconditionRequiredException::class);
+        $params = http_build_query([
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('single_int', InputArgument::REQUIRED, InputOption::SINGLE_INT);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleIntContentFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "single_int" => 'single',
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('single_int', InputArgument::REQUIRED, InputOption::SINGLE_INT);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleIntAsFloatContentFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "single_int" => '1.1',
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('single_int', InputArgument::REQUIRED, InputOption::SINGLE_INT);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleIntContentOk()
+    {
+        $params = http_build_query([
+            "single_int" => '1',
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('single_int', InputArgument::REQUIRED, InputOption::SINGLE_INT);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleFloatRequiredFailure()
+    {
+        $this->expectException(PreconditionRequiredException::class);
+        $params = http_build_query([
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('single_float', InputArgument::REQUIRED, InputOption::SINGLE_NUMBER);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleFloatContentFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "single_float" => 'single',
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('single_float', InputArgument::REQUIRED, InputOption::SINGLE_NUMBER);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeSingleFloatContentOk()
+    {
+        foreach ([1, 1.1, "1", "1.1"] as $value) {
+
+            $params = http_build_query([
+                "single_float" => $value,
+                "required_single" => 'single',
+                "required_multi" => ['a', 'b', 'c']
+            ]);
+            $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+            $case = new UseCaseCommands;
+            $case->addArgument('single_float', InputArgument::REQUIRED, InputOption::SINGLE_NUMBER);
+            $result = $case->handle($request);
+            $this->assertInstanceOf(ResponseInterface::class, $result);
+        }
+    }
+    public function testRequestHandlerParameterTypeBoolRequiredFailure()
+    {
+        $this->expectException(PreconditionRequiredException::class);
+        $params = http_build_query([
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('boolean', InputArgument::REQUIRED, InputOption::BOOL);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeBoolContentFailure()
+    {
+        $this->expectException(PreconditionFailedException::class);
+        $params = http_build_query([
+            "boolean" => 'single',
+            "required_single" => 'single',
+            "required_multi" => ['a', 'b', 'c']
+        ]);
+        $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+        $case = new UseCaseCommands;
+        $case->addArgument('boolean', InputArgument::REQUIRED, InputOption::BOOL);
+        $result = $case->handle($request);
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+    }
+    public function testRequestHandlerParameterTypeBoolContentOk()
+    {
+        foreach ([true, 1, "On", "1", "true", false, 0, "Off", "0", "false"] as $value) {
+
+            $params = http_build_query([
+                "boolean" => $value,
+                "required_single" => 'single',
+                "required_multi" => ['a', 'b', 'c']
+            ]);
+            $request = (new ServerRequestFactory)->createServerRequest(RequestMethodInterface::METHOD_GET, (new UriFactory)->createUri('http://localhost/test?' . $params));
+            $case = new UseCaseCommands;
+            $case->addArgument('boolean', InputArgument::REQUIRED, InputOption::BOOL);
+            $result = $case->handle($request);
+            $this->assertInstanceOf(ResponseInterface::class, $result);
+        }
     }
 }
